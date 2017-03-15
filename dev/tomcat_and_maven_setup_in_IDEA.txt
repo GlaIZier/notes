@@ -1,0 +1,39 @@
+1. Install tomcat
+2. Edit .m2/settings.xml by adding  
+	 <server>
+      <id>tomcat.localhost</id>
+      <username>admin</username>
+      <password>passw0rd</password>
+    </server> 
+3. edit pom.xml like this
+	<profiles>
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.name>local</profile.name>
+                <smile.server>tomcat.localhost</smile.server>
+                <smile.tomcat.path>${project.name}</smile.tomcat.path>
+                <smile.tomcat.port>8081</smile.tomcat.port>
+            </properties>
+        </profile>
+    </profiles>        
+4. Edit configurations in Idea and add maven  smth like that
+	path to pom : /home/mkhokhlushin/smile/payments/web
+	command line -DskipTests=true clean tomcat7:redeploy 
+	profile: local
+
+    tomcat7 is maven plugin for deploy
+
+****************** Creation embedded tomcat in Idea in Edit Configuration ***********
+1. In edit configuration add tomcat. Add path to tomcat. 
+2. Add artifact in deployment. Also check here application context (path to the webapp)! It must be the same as path for prod and test servers! 
+3. Before launch u should add build artifact
+4. if u want to pom variables work ${} u should add them to the vm options, like 
+    -Dgrad.url=jdbc:oracle:thin:@10.0.2.156:1521:infodev
+    -Dgrad.username=infopanew
+    -Dgrad.password=xaK9wPrt2
+    -Dmaven.test.skip=true
+    or u can add mvn clean package before launch to let mvn work before artifact build (replace placeholders like ${a} -> a_value)

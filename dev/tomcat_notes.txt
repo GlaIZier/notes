@@ -1,0 +1,164 @@
+To enable nonANSI symbols add to server.xml 
+<Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" 
+               useBodyEncodingForURI="true"/> // this string
+
+how can i find out the version of tomcat. version.sh doenst contain any version number? release-notes
+
+/opt/tomcat_fedpa/conf/jmx.password // Show passwords for JMX
+
+ ********* Tomcat webapp debug in Idea **************
+ bin/catalina.sh jpda run
+ In idea u need to create remote configuration and choose port 8000
+ Deploy application using mvn clean tomcat7:redeploy -P local
+ And then run debug button in Idea
+
+
+********* Creation of tomcat server in Idea **************** 
+Edit configuration by adding tomcat server. Then add war to build and deploy. Add all VM options like this: -Dgrad.url=jdbc:oracle:thin:@10.0.2.156:1521:infodev -Dgrad.username=bla -Dgrad.password=bla -Dfedpa.username= -Dfedpa.password= -Dsmile.trustedProxies= -Dsmile.internalProxies=
+
+********* RemoteIpFilter is used to get real remoteaddr not proxy. It uses http headers like x-forwarded-for and -by
+ <filter>
+        <filter-name>RemoteIpFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.RemoteIpFilter</filter-class>
+        <init-param>
+            <param-name>trustedProxies</param-name>
+            <param-value>${smile.trustedProxies}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>internalProxies</param-name>
+            <param-value>${smile.internalProxies}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>remoteIpHeader</param-name>
+            <param-value>X-Forwarded-For</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxiesHeader</param-name>
+            <param-value>X-Forwarded-By</param-value>
+        </init-param>
+    </filter>
+
+**************** Attach classes in jar file. This creates war file and separate jar file with classes *****************
+ <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <goal>war:war</goal>
+                    <attachClasses>true</attachClasses> // here
+                    <webResources>
+                        <webResource>
+                            <directory>src/main/webapp/META-INF</directory>
+                            <includes>
+                                <include>context.xml</include>
+                            </includes>
+                            <filtering>true</filtering>
+                            <targetPath>META-INF</targetPath>
+                        </webResource>
+                        <webResource>
+                            <directory>src/main/webapp/WEB-INF</directory>
+                            <includes>
+                                <include>web.xml</include>
+                            </includes>
+                            <filtering>true</filtering>
+                            <targetPath>WEB-INF</targetPath>
+                        </webResource>
+                    </webResources>
+                </configuration>
+            </plugin>
+
+
+
+connectionProperties="oracle.net.CONNECT_TIMEOUT=150000;oracle.jdbc.ReadTimeout=150000" // reject connection (close socket) if there is no answer on the request in 150 s
+jdbcInterceptors="ConnectionState;StatementFinalizer;QueryTimeoutInterceptor(queryTimeout = 120)" // ask to cancel operation if there is no answer on the request in 120 s from database
+removeAbandonedTimeout="30" // close unclosed unused for query connection in 30s 
+validation-interval: 10000 // how often to validate connection to database using validation-query
+validation-query-timeout: 10000 // override timeout for validation query 
+
+${sys:catalina.base} // system properties link to catalina base for log4j2. Tomcat gets this from environment variable
+
+***************************** Tomcat and servlets security *********************
+ <!--Before deployment make sure that server has a config with such roles. Look for tomcat-users.xml and server.xml-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>req</web-resource-name>
+            <url-pattern>/iprequest</url-pattern>
+            <url-pattern>/freerequest</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>fsb_user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/jsp/login.jsp</form-login-page>
+            <form-error-page>/jsp/login_error.jsp</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>Секретный агент FSB</description>
+        <role-name>fsb_user</role-name>
+    </security-role>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+
+U should set up tomcat configs: tomcat-users.xml and server.xml: 
+
+server.xml:
+<GlobalNamingResources>
+    <!-- Editable user database that can also be used by
+         UserDatabaseRealm to authenticate users
+    -->
+    <!-- My. Uncomment it when fsb is done -->
+<!--     <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" /> -->
+
+    <!-- My. Remove this when fsb is done. FSB logins for fsb private area -->
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/fsb-users.xml" />
+    <!-- // My       -->
+
+  </GlobalNamingResources>
+
+   <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <!-- This Realm uses the UserDatabase configured in the global JNDI
+             resources under the key "UserDatabase".  Any edits
+             that are performed against this UserDatabase are immediately
+             available for use by the Realm.  -->
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+               resourceName="UserDatabase"/>
+      </Realm>
+
+      fsb-users.xml:
+
+      <?xml version='1.0' encoding='utf-8'?>
+        <tomcat-users>
+          <role rolename="fsb_user"/>
+          <role rolename="fsb_manager"/>
+          <user username="admin" password="13gmuf7a" roles="fsb_user" />
+          <user username="88.111." password="BORIS" roles="fsb_user" />
+          <user username="userzsmile-9" password="UkfD_*yS!84Ljn" roles="fsb_user" />
+        </tomcat-users>
+
+        or   tomcat-users.xml:
+
+        <tomcat-users>
+          <role rolename="manager-gui"/>
+          <role rolename="manager-script"/>
+          <role rolename="manager-jmx"/>
+          <role rolename="admin-gui"/>
+          <role rolename="admin-script"/>
+          <user username="admin" password="passw0rd" roles="manager-gui,manager-script,manager-jmx,admin-gui, admin-script"/> 
+        </tomcat-users>

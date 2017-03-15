@@ -1,0 +1,401 @@
+There is profile for production servers that consists scripts with aliases and setting needed for git, tmux, terminal... Need to copy public key to ssh by using ssh-copy-id <remote-host>
+
+ls -l // show files with rights
+
+grep -R --color "database" /opt/tomcat/
+grep 2160407 --color -r  ./payment* // grep in all payment logs
+zgrep --color '/request' ./* | grep -v 'check_http' | grep -v 83.217.197.2 | less // inside gzip, remove check_http and 83.217.197.2
+grep pattern --color -r --include=\*.{cpp,h} rootdir
+grep --color iptv52562 payments*
+grep -E --color "ERROR.+Chronopay.+" payments.log // extended mode to find using regexp
+grep -P --color "ERROR.+Chronopay.+" payments.log // perl mode to find using regexp
+grep -v // invert the sense of matching
+grep -E --color "GlaIZier" /var/log/payments.log*
+
+find / -name 'server.xml'
+find / -iname 'server.xml' // case insensetive
+find / -type d -name 'tomcat'
+find / -name  profiles -type d // in Ubuntu search for dir with name profiles
+find -delete  -name '*.iml'
+find .-ls -name "*.gz" -exec command {} \; for each found (ls style found) file exec command
+find rc*.d -name "*memcached" - delete // find all in rc*.d and then delete them all
+****
+If your grep supports -R, do:
+grep -R 'string' dir/
+If not, then use find:
+find dir/ -type f -exec grep -H 'string' {} +
+
+cat statuses.txt | grep -E "(12:07|12:08)"  // grep all records with 12:07 or 12:08
+
+
+locate nginx.conf // find file using index. May be slow and may be fast because of the index
+
+
+netstat // network statistics, sockets
+netstat -ltpn  //watch open ports
+netstat -lepunt // watch full info about services
+netstat -t // only tcp
+netstat -na // show opened connections
+netstat -i //interfaces list
+netstat -r // route table
+netstat -latn // listen queue for open sockets
+nmap -p 80 redmine.infoline.ru // show report for redmine.infoline.ru, port 80, open ports
+nmap -A -T4 83.217.194.3  // show open ports report from outside
+lsof -i :25 // list open files by port 25
+lsof // utilite to show files that processes use
+netstat -nat | grep tcp | awk '{print $(NF)}' | sort | uniq -c // count dif statuses for connections
+ss -i // utilile to show sockets
+
+ps ax | grep tomcat // find process like tomcat
+ps ax | grep tomca[t] // find process like tomcat without grep
+pgrep tomcat // find pid of tomcat
+kill <pid> // send 15 signal to process that should process it
+kill - 9 <pid> // send signal to os to kill that process
+
+tee // duplicate data from stdin to file and stdout
+
+grep "cs1 tel" catalina.out.2015-05-14 | awk '{print $49" "$17" "$18" "$7" "$22}' | sort -k5 | uniq | wc -l // Get chronopay telephone payments
+
+tail -f catalina.out // show in runtime document tail of doc
+tail -1000 catalina.out // show 1000 last lines of the file
+head -1 daily_autocommit_script.sh | od -c // check first line all symbols
+
+la -h show size of a file?
+
+ssh-copy-id 172.31.0.151
+ssh 172.31.0.33 "tar x" < ~/profiles/smile-profile-prod.tar 
+ssh 83.217.197.86  "tar x" < ~/d/Work\ Smile/Profiles\ And\ Scripts\ For\ Console/smile-profile-prod.tar // copy profile using scp and untar there
+
+sudo apt-get update        # Fetches the list of available updates (update repositories)
+sudo apt-get upgrade       # Strictly upgrades (patches) the current packages
+sudo apt-get dist-upgrade  # Installs updates (new versions) include kernels
+sudo apt-get purge         # remove packages with configs
+sudo apt-get remove		   # remove packages without configs. To remove package u need to remove additionally their libs like rm -rf /var/lib/docker
+sudo apt-get remove virtualbox-\* // remove virtualbox
+sudo apt-get purge virtualbox-\*  // remove all configs for virtual box
+sudo apt-get autoremove    # autoremove packages (removes unused packages)
+sudo apt-get install linux-headers-generic-lts-trusty # Install linux headers kernels. It's like installation of a new package
+sudo apt-get install linux-image-3.13.0-76-generic # Install linux kernels. It's like installation of a new package
+apt-cache search ^<package name> // search about package
+apt-cache showpkg libevent-2.0-5 // show package info 
+aptitude // gui for apt
+
+
+scp informer_10.07.15.png mkhokhlushin@smile-prod-informer-1:~ // upload file using ssh
+scp -rp sourcedirectory user@dest:/path // upload directory -r recursive -p preserves modification times, access times, and modes from the original file.
+scp mkhokhlushin@172.31.0.132:/home/mkhokhslushin/fsb-users.xml . // get file from ssh
+
+ln -sfn payments-web-0.7.4.jar payments.jar // create link
+
+tar -tf filename.tar.gz // watch files inside archive
+tar --verbose  -tf /home/itbackup/bkp_2015-09-14.tar.gz | grep '^d.+' // watch all catalogs
+tar -xf /vagrant/bkp_2015-09-02.tar.gz opt usr  // untar
+tar czf name_of_archive_file.tar.gz name_of_directory_to_tar // To tar and gzip a folder, the syntax is:
+
+
+/etc/init.d/nxserver start // start service
+
+// manage users in linux
+adduser mkhokhlushin
+/usr/sbin/visudo // add here su previligies
+userdel mkhokhlushin 
+rm -rf /home/mkhokhlushin // remove dir with files
+rm -rf images/* // remove all inside images folder
+/var/log/secure // security logs
+
+ll -h /home/itbackup/ // watch files in dir with privileges and sizes
+
+nginx -s reload // reload config nginx
+
+netstat -apn | grep <proc num> // show listening ports for proc num name
+
+VBoxManage modifyvm "Windows 7" --natnet1 "172.16/16" // modify virtual machine to view local address (https://www.virtualbox.org/manual/ch09.html#changenat)
+
+Ctrl+z // to background
+jobs //show all background and stoped tasks
+fg <number from jobs> // store job in the foreground
+bg // store job in the background 
+
+exit, Ctrl+d // exit from su and ssh
+ctrl+c // stop, cancel current command
+ctrl+u // clear terminal
+ctrl+a // in the beginning of the line
+ctrl+e // in the end of the line 
+
+yum install tofrodos  
+fromdos /etc/nginx/ssl/user.smile-net.ru.2014.crt // Ctrl symbols from/to win <-> linux
+
+openssl genrsa -out mykey.pem 2048 // сгенерить пару в pkcs1
+openssl rsa -in mykey.pem -pubout -out pubkey.pem // выдрать публичный ключ в стандарте x509 c openssl заголовками в формате pem
+openssl pkcs8 -topk8 -inform pem -in mykey.pem -outform pem -nocrypt -out privkey.pem // выдрать ключ в стандарте pkcs8 из пары в формате pem 
+
+// minimize by clicking on the icon
+An unsupported capability was added to Unity for Trusty. Unsupported means that Canonical do not guarantee this capability moving forwards towards Unity 8.
+However, from a LTS point-of-view this gives those users at least 5 years with just this capability. This is not directly available through the standard GUI.
+For a safe way, reach for a terminal and copy & paste the following:
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-minimize-window true
+To undo this change:
+gsettings set org.compiz.unityshell:/org/compiz/profiles/unity/plugins/unityshell/ launcher-minimize-window false
+
+printenv // print all environment variables
+
+~/.local/share/applications/jetbrains-idea-14.desktop //all icons for the desktop
+
+pstree // processes tree
+
+// Network useful
+iptables -L // firewall
+// block Oracle db
+iptables -A OUTPUT -p tcp --dport 1521 -j DROP // add rule for port
+iptables -D OUTPUT -p tcp --dport 1521 -j DROP // remove rule for port
+iptables -L OUTPUT -vn // show blocked for output
+iptables -L INPUT -vn // show blocked for input
+vim /etc/sysconfig/iptables // edit iptables config
+systemctl restart iptables // restart iptables service
+/etc/network/iptables // show rules of iptables
+iptables -vnL // show rules of iptables
+
+iptables -t nat -A OUTPUT -d 93.184.216.34 -p tcp --dport 80 -j DNAT --to-destination 127.0.0.1:8900 // redirect to localhost from 93.184.216.34
+iptables -t nat -D OUTPUT -d 93.184.216.34 -p tcp --dport 80 -j DNAT --to-destination 127.0.0.1:8900 // remove redirect to localhost from 93.184.216.34
+
+
+tcpdump -i eth0 // dump all packages
+tcpdump -i eth0 | grep ARP
+tcpdump -i eth0 > tcp.pcap
+tcpdump -i eth0 tcp port 80
+tcpdump -i eth0 tcp port 443 and host vk.com
+tcpdump -s0 -w lo.pcap -i lo // dump into the lo.pcap file s0 = buffersize 65K?
+tcpdump -s0 -w eth0-1.pcap -i eth0 'tcp port 80' // only tcp port 80
+ping //
+traceroute // route to host
+mtr // the same as traceroute
+tcpdump -enni eth0 proto 1 // -e ethernet, -nn not resolve ip proto 1 - icmp 
+tcpdump -enni eth0 proto 6 and port 80 and host ... // tcp and port 80 -http
+ngrep -W byline -d eth1 "Host" proto 6 and port 80 // grep text protocol
+
+arp -na // show arp table 
+
+
+
+htop //show load of mem, cpu and other
+free -m // show free memory
+uptime
+cat /proc/meminfo
+cat /proc/cpuinfo
+lscpu // show cpu info
+
+// logs
+/var/log/ // places for logs
+/usr/local/www/logs // service specific places
+dmesg, /var/log/messages // system
+lsof | grep ... // show log places for services
+/proc/pid
+
+// sytem and kernel
+mount // show partitions
+dmesg // logs about messages to coredump
+ulimit -c // set limit for coredump messages
+sysctl kernel.core_pattern // show patterns and variables for core dumps
+gdb <path to program> <coredump path> // show coredump
+bt // backtrace for all threads
+ft // current frame, all registers
+print // print all variables now
+ltrace // show libraries trace for a program
+strace // show system trace for a program
+uname -a // show kerbel version
+cat /etc/*rele* // show version of OS
+cat /etc/debian_version // watch debian version
+tail -f /var/log/syslog // system log
+tail -f /var/log/kern.log // kernel log
+lsmod // show the status of module in linux kernel
+lsb_release -cs // show version name of ubuntu
+
+// hard drive
+df -h // show space for partitions
+df -i // show free file descriptors
+stat <filename> // show info about file
+hdparm // get-set hard disk params
+swapoff/swapon -U 4c0b300f-1e77-4f3c-acd3-e79777a47e7b //swap off using uid
+/etc/fstab // file with partitions. Comment swap to disable it
+vmstat // show cpu, io system, hard disks, swap ...
+perl -ne "print scalar localtime(), '', $_;" | vmstat 1 //print 1 time a sec with localtime
+iostat // io statistics
+iotop // show load of io
+
+env // show environment variable. They are needed for applications usage like arguments. These are smth like very global arguments. Env var PATH is a global variable for all user installed programs to run from any place in console. So u don't need to type in the full path to the application.
+
+ctrl+l // clear terminal shortcut
+
+ctrl+alt+F1 // system console. eg, in case of system freeze 
+ctrl+alt+F7 // back to gui
+
+// use telnet to check http protocol
+telnet google.com 80
+Trying 87.251.132.180...
+Connected to google.com.
+Escape character is '^]'.
+GET /
+
+curl -L localhost:80 // get main localhost page
+
+
+// remove cache for apt-get
+sudo rm -rf /var/lib/apt/lists/*
+sudo rm -rf /var/cache/apt/*
+
+dpkg -l // show packages in the system
+dpkg -L docker-engine // list all files in docker-engine package
+dpkg -l | grep linux | grep ii // get all packages linux installed
+dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] 
+dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] | xargs sudo apt-get -y purge // Remove old kernel packages
+dpkg -l | grep linux | grep ii | grep 3.16 | awk '{print $2}' | xargs sudo apt-get -y purge // remove all kernel 3.16 packages 
+dpkg -i // install package
+dpkg -r // remove package
+
+
+
+less // programs to view files splitted on pages
+more 
+
+/etc/init.d // place where unix services are stored 
+
+// networks
+// To make network work u need: interfaces addresses, default gateway and routes, dns, filters
+ip a // show interfaces on the machine
+ifconfig // show interfaces on the machine
+ip r // show routes
+ip ro get <ip address> // show route for this ip address
+brctl // bridges configuration
+/etc/network/interfaces
+ip addr // show addresses on the interfaces
+ip ru // show routes tables
+/etc/protocols/ all protocols
+ip addr add/del // add/del ip address to the host
+ip link // show ip addresses and mac addresses
+
+
+update-grub // grub will update it's start operation systems list (and kernels too). U may have several kernels on the machine
+vim /etc/default/grub // settings to edit for grub
+vim /boot/grub/grub.cfg  // config (read only) for grub
+
+source <bash file name> // executes the content of the file passed as argument, in the current shell
+
+/etc/skel/ // from this dir system copy 
+.bashrc, .profile in home dir // initialization file for current shell. When Bash is invoked as an interactive login shell, or as a 
+ non-interactive shell with the --login option, it first reads 
+ and executes commands from the file /etc/profile, if that file
+ exists. After reading that file, it looks for ~/.bash_profile, 
+ ~/.bash_login, and ~/.profile, in that order, and reads and executes
+ commands from the first one that exists and is readable. The 
+ --noprofile option may be used when the shell is started to inhibit
+ this behavior.
+
+cat /etc/group // show all groups
+sudo usermod -G name-of-group -a 'name-of-user' // add user to the group
+
+export TERM=linux // set terminal env variable to linux
+unset TERM // unset terminal env variable
+
+ab -n 1000 -c 10 http://mail.ru // hiload testing using apache utils
+
+chown -R username:group directory //will change ownership (both user and group) of all files and directories inside of directory and directory itself.
+
+rpm -i //(--install is equivalent) installs software that's been packaged into an RPM package file. It does this by: Performing dependency checks.Checking for conflicts.Performing any tasks required before the install.Deciding what to do with config files.Unpacking files from the package and putting them in the proper place.Performing any tasks required after the installKeeping track of what it did. 
+
+iconv -f cp1251 -t utf-8 slavmir.js  // convert encoding
+
+which <bash_command> // shows the full path of (shell) commands.
+
+printf '<username>:<password>' | base64  // to base64
+
+w, who // all user sessions
+whoami
+id // info about user ids
+hostname
+
+su // switch user to root without changing ENV
+su - = sudo -i// switch user to root with changing ENV
+
+w // show who is logged and what is he doing
+visudo //change /etc/sudoers file with sytax check
+sudoedit vim // safe method to execute vim (because vim can execute all other commands in command mode)
+sudo -u // execute command from other user 
+gpasswd  -a -d// control users in group
+useradd, userdel // add user in all nix systems (low level command). Need to call this with all options for user
+adduser, addgroup, deluser // add user with all settings in deb systems
+passwd // change password for current user 
+passwd <user> // for user
+groups <user> // list of groups for user
+chown :vagrant <file> // change group owner of the file
+chown vagrant:vagrant <file> // change group and user owner of the file
+chmod 777 file // modificate rights for file
+chmod a-r file // remove read rights for file
+vipw // open /etc/passwd, /etc/shadow in case of -s option
+catalogs:
+/etc/passwd, /etc/shadow, /etc/group, /etc/login.defs, /etc/skel
+lsattr <file> // Show flags. Also linux file have special flags which ccan restrict even root modify it
+sticky bit // allow to execute program with owner previliges (root) for ordinary user
+
+
+pushd, popd, dirs // cd with pushing dirs to stack
+
+sleep 36000; echo "hello world" | mail -s "a subject" mkhokhlushin@smile-net.ru // wait 10 hours and send email
+
+repeatable tasks: cron.d: user, system; at
+crontab -e, crontab -r // add, remove
+/etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly or /etc/cron.weekly // scripts here
+
+date // install date
+ntpdate ntp.server.com // sync with ntp server
+hwclock -w // sync time bios time with local time
+
+//DNS
+/etc/resolv.conf // which dns should be asked first, second ...
+/etc/hosts // local file dns
+nsswitch /etc/nsswitch.conf // choose which process ask first (eg dns server first, local file last)
+/etc/nscd.conf // daemon that saves dns records in cache
+nscd -i hosts // 
+host <hostname> //use dns to resolve record
+nslookup <hostname> // ...
+dig // ... but more inforamtion like tipe of a record, ttl...
+for u in host nslookup dig; do $u vk.com; done // do dns lookups using all three utils
+/etc/bind // config for bind
+host -t SOA ya.ru // check soa record
+dig ANY ya.ru @8.8.8.8 // check all records for ya.ru using google dns
+rndc reload // reload bind config
+
+Ubuntu rearrange window // Ctrl + Alt + a keypad key.
+
+configure, make, install // build from sources
+configure --help, ./configure -help //watch where in will build the package, --prefix // param where to build this package
+make
+make -j<number of threads> // make in several threads
+make install
+make distclean // clean all maked
+
+//Daemons
+ppid = 1
+//enter not from tty
+//output to some file
+nohup // make service from program
+System initializations:
+SysV: scripts in init.d, // levels of run 0, 1s, 23,... ; Do something from :  /etc/rcN.d, /etc/init.d, /etc/rc.local when daemon goes from level to level. Script in init.d must include 4 functions start, stop, restart, status. Usually soft has it's own init script inside package
+upstart, 
+systemd //dependencies, parallel start
+
+telinit // change current run level
+service $service start, stop, restart, status
+update-rc.d  memcached defaults // add/remove services in autoload in certain runlevels defined in init script
+
+//Logs
+rsyslog // daemon to control logs. Config in /etc/rsyslog.conf and /etc/rsyslog.d/
+//stores logs in these folders:
+/var/log
+  auth
+  mail
+  syslog // system messages and uncathegorized
+//also rsyslof can transfer logs within network
+//logrotate can rotate logs /etc/logrotate.conf, /etc/logrotate.d
+
+
+echo $? // show return code of last command

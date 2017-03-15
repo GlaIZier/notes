@@ -1,0 +1,11 @@
+Most Spring MVC applications have one root context containing all service layer / DAO layer beans, and one servlet context per spring dispatcher servlet of the application, which contains (at least) the controllers of each servlet.
+
+The idea being that is that one application might have several servlet dispatchers, for example one for URL /shopping/* and the other for URL /reporting/*, each with it's own set of controllers.
+
+The controllers of one servlet dispatcher are isolated from each other, meaning although they are also Spring beans, they cannot be injected in each other.
+
+Service layer and DAO beans in the root context are visible in all servlet contexts, so Service layer beans can be injected in any controller, but not the other way around.
+
+The root context is said to be the parent of the controller servlet context/contexts.
+
+It's all meant to be a mechanism of isolating groups of beans from each other to ensure no unmeant dependencies are possible.

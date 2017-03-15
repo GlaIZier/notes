@@ -1,0 +1,22 @@
+git reset --hard 4317a69 // remove local commit at all
+git push origin --force feature/13355  // force push to remote branch. It will do the same branch on remote as local
+git rebase -i // rebase in interective mode where u can squash, rename ... commits
+git rebase -i HEAD~2 // rebase using two last commits
+
+git branch -D bugfix // remove local branch 
+git push origin --delete <branchName> // remove remote branch
+git remote update origin --prune // update remote branches on local macine
+
+git clone git.infoline.ru:/home/git/repositories/docker/docker-nginx/
+git clone --recursive git.infoline.ru:/home/git/repositories/docker/docker-radius // clone with git submodules
+git ls-files // show files under vcs git 
+
+// Two commits squash in one
+git reset HEAD^ // remove last commit but 
+git commit --amend
+git push -f origin master
+
+git rebase -i HEAD~2
+
+// Problem please make sure you have the correct access rights and the repository exists.
+// check that ur user group does not override rights

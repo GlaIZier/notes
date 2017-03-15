@@ -1,0 +1,14 @@
+private static final Logger logger = LogManager.getLogger(MethodHandles.lookup().lookupClass()); // universal way to define logger for current class. From the 7th java developers dicide to refuse of reflection usage. So MethodHandles class is used to reflect methods (???)
+
+Regexp why \d instead of \d? // because we need to escape \ symbol
+
+
+
+classpath 
+=15:49=mkhokhlushin@user-B85M-HD3[~/smile/test_project]$ java -cp "/home/mkhokhlushin/.m2/repository/org/bouncycastle/bcprov-jdk15on/1.53/bcprov-jdk15on-1.53.jar:/home/mkhokhlushin/smile/test_project/src/main/java" ru.glaizier.security.SecurityTest //jvm searches classes in classpath. Files in relative way from current dir
+javac -cp "/home/mkhokhlushin/.m2/repository/org/bouncycastle/bcpkix-jdk15on/1.53/bcpkix-jdk15on-1.53.jar" SecurityTest.java // javac searches classes using classpath
+
+jmap -dump:file=/share/heap-$(date +%F-%T).hprof <pid> // thread dump for running process
+jmap -permstat <pid> > /share/perm-$(date +%F-%T).txt 2>&1
+
+public class BasicTest extends Assert // hint to not include all static assets in test class

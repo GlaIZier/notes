@@ -1,0 +1,4 @@
+ctrl + q // How to view formatted JavaDoc in Idea
+ctrl + alt + b // show derived classes from current
+ctrl+shift+arrow // select text
+ctrl+w // select words

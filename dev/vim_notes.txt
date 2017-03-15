@@ -1,0 +1,4 @@
+V + j then d // delete large block of text
+> , < // intend tabs
+zz // exit and save
+zq // exit wo saving

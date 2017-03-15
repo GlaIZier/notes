@@ -1,0 +1,18 @@
+-- call function
+
+declare
+   result number;
+begin
+   -- Call the function
+   result := package_name.function_name (15000);
+end;
+
+-- call funciton
+select package_name.function_name (15000)
+from dual;
+
+-- call procedure
+BEGIN
+  INFONEXT.xxmig_pkg.GET_GRAD_LOGIN(i_src_billing => 'smile',
+                                    i_src_id => 'qqq121');
+END;

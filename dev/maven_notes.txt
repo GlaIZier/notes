@@ -1,0 +1,183 @@
+
+********************** Параметры Maven ${} *****************************
+На этапе build?: разбор всех переменных и подстановка в пом.
+
+Глобальные переменные, такие как ${project.}, доступны в пом по умолчанию.
+Разбор профайла с помощью стандартного плагина сборки (раздел <filters>), указанного в командной строке при запуске Maven с помощью ключа -P <имя профайла>, указанного в пом в <profile> и загрузка значений ключей профайла во внутр. струк. пом ключ-значение.
+
+
+На этапе деплоя? с использованием плагина для деплоя в вар.
+
+Подстановка всех внутренних переменных мавена из внутренней структуры ключ-значение в необходимые, указанные в <webResources>, конфиг файлы.
+
+dev.properties: chronopay.product_id = 1 -> pom.xml -> application.cfg: chronopay.product_id = ${chronopay.product_id}
+
+
+При загрузке из IDE на лок сервер не используется мавен, поэтому, чтобы загрузить переменные в конфигурационные файлы, можно указать параметры вирт машины через ключ -D (работать будет только подстановка в xml файлах: context.xml, web.xml. Например, -Dchronopay.cb_url=http://83.217.194.3/payments/chronopay) в edit configuration настойках idea для томката. Либо настроить в edit configuration deploy через мавен. При этом томкат уже должен быть запущен.
+
+****************************************************************
+maven install - load project to local repository that was described in
+
+ 	<distributionManagement>
+        <repository>
+            <id>${smile.repo}</id>
+            <url>sftp://${smile.repo}/var/www/html/maven</url>
+        </repository>
+    </distributionManagement>
+
+using 
+	<extensions>
+        <extension>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>2.8</version>
+        </extension>
+    </extensions>    
+
+****************************************************************
+
+mvn clean tomcat7:redeploy -P dev // deploy to tomcat
+mvn clean tomcat7:redeploy -P prod -Dmaven.skip.test=true -Dtomcat.username=mkhokhlushin -Dtomcat.password=Kbh6VsaA1wPb // deploy to prod skipping tests
+ mvn clean tomcat7:redeploy -P prod -Dmaven.test.skip=true -Dtomcat.username=mkhokhlushin -Dtomcat.password=Kbh5VsaA1wPb // deploy to prod skipping tests
+
+mvn deploy // deploy to the remote repository
+
+mvn dependency:sources -U // force download dependencies always
+
+
+************************************************************
+
+ mvn spring-boot:run // run spring boot
+
+ ***********************************************************
+
+В core 
+<!-- Process test resources -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <resourceBundles>
+                        <resourceBundle>ru.smilenet.payments:payments-test-resources:${project.version}</resourceBundle>
+                    </resourceBundles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+Тестовые ресурсы собирает и кладет в target/classes. Зависит от test-resources модуля
+
+В test-resources:
+
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-remote-resources-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>bundle</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*.yml</include>
+                                <include>**/*.xml</include>
+                                <include>**/*.xmls</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+*************************************************************************
+mvn versions:set -DnewVersion=0.8.6 // change project version
+
+
+    <!-- For pre-release Spring Boot Maven plugin download -->
+    To create self-executable jar
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-libs-milestones</id>
+            <url>http://repo.spring.io/libs-milestone</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+
+where is a plugin for mvn dependency:sources? // included in maven by default?
+mvn snapshot - for downloading new version of project (need this because we don't need to change version every time we do changes in our project to download latest release) every time from repository or once a day (depends on maven settings)
+
+*******************************************
+// get variables from file and use theme in different files, eg dev.properties -> web.xml
+//pom
+<filters>
+    <filter>${project.basedir}/src/profiles/${profile.name}.properties</filter>
+</filters>
+// dev.properties
+# Oracle database credentials (DAYTEST)
+grad.url = jdbc:oracle:thin:@10.0.2.156:1521:infodev
+grad.username = inforedirect
+grad.password = c0Dakomb4
+fedpa.username = infopanew
+fedpa.password = xaK9wPrt2
+
+# dev gate
+smile.trustedProxies = 83\\.217\\.194\\.\\d{1,3}
+
+# dev gate, controller, local proxy
+smile.internalProxies = 83\\.217\\.194\\.\\d{1,3}|10\\.0\\.2\\.2|127\\.0\\.0\\.1
+// web.xml
+ <filter>
+        <filter-name>RemoteIpFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.RemoteIpFilter</filter-class>
+        <init-param>
+            <param-name>trustedProxies</param-name>
+            <param-value>${smile.trustedProxies}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>internalProxies</param-name>
+            <param-value>${smile.internalProxies}</param-value>
+        </init-param>
+        <init-param>
+            <param-name>remoteIpHeader</param-name>
+            <param-value>X-Forwarded-For</param-value>
+        </init-param>
+        <init-param>
+            <param-name>proxiesHeader</param-name>
+            <param-value>X-Forwarded-By</param-value>
+        </init-param>
+    </filter>
+
+***************************************
+
+// scopes
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <scope>test</scope> // use this dependency only in tests. This will not be able in prod
+</dependency>
+provided // this dependency provided by contrainer or external system
+
+// 
+
+
+mvn -P dev clean package org.codehaus.mojo:wagon-maven-plugin:upload // depoly payments
+Также нужно зайти по ssh на сервер и перезапустить сервис:
+systemctl restart payments
+Посмотреть статус сервера:
+systemctl status payments
+При этом покажется кусочек лога.
+Аналог tail -f logs/catalina.out:
+journalctl -xf
+Все остальные логи хранятся в /opt/payments/logs.
