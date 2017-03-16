@@ -1,23 +1,35 @@
-Proxy
+//Proxy
 Is widely used in Spring to implement AOP principle and to inject session type beans in singleton one. Spring use proxies to handle such situations. Also is used in OSGI to handle dynamic module load.
 
 
-DI
-Ex. public ConstructedClass() { new AnotherConstructedClass; ...} -> public ConstructedClass(AnotherConstructedClass acc) {...}.
-Is used in Spring.
+//DI
+Ex. public ConstructedClass() { new AnotherConstructedClassImpl; ...} -> public ConstructedClass(IAnotherConstructedClass acc) {...}. So first example is depended on AnotherConstructedClassImpl, but in the second one we inject dependency interface (IAnotherConstructedClass) in code. That's why it is called dependency injection.
+DI is used in Spring. Di is one impl of IoC principle
 
-Singleton
+//Ioc Principle
+The sample is similar to the one above in DI. You have inverted control by handing the responsibility of creating the AnotherConstructedClassImpl from the ConstructedClass to the caller.
+In term of frameworks this principle means from Martin Fowler:
+When I first ran into inversion of control, it was in the main control of a user interface. Early user interfaces were controlled by the application program. You would have a sequence of commands like "Enter name", "enter address"; your program would drive the prompts and pick up a response to each one. With graphical (or even screen based) UIs the UI framework would contain this main loop and your program instead provided event handlers for the various fields on the screen. The main control of the program was inverted, moved away from you to the framework.
+To clarify a little: Inversion of Control means anything which inverts the control structure of a program from the classic procedural design.
+In days of yore, a key example of this was letting a framework handle communication between a UI and your code, rather than leaving your code to generate the UI directly or do smth ordinary directly.
+In more recent times (when such frameworks pretty much dominated, so the question was no longer relevant), an example was inverting control over the instantiation of objects.
+Fowler, and others, decided that the term Inversion of Control covered too many techniques and we needed a new term for the specific example of instantiation of objects (Dependency Injection) but, by the time that agreement had been made, the phrase "IoC Container" had taken off.
+This muddies the water a lot, because an IoC container is a specific kind of Dependency Injection, but Dependency Injection is a specific kind of Inversion of Control. This is why you're getting such confused answers, no matter where you look.
+
+
+//Singleton
 One instance in application.
 
-Facade
+//Facade
 Ex. SLF4j -> Logback, log4j
 
-Callback, Observer
+//Callback, Observer
 libraryMethod(MyImplOfLIbraryInterface myImpl). MyImplOfLibraryOfInterface { @override libraryMethod() {my code here}}.
 Ex. JdbcTemplate
 
-Context
+//Context
 HashMap<Class<T>, singleton instance of T class>
+Context in term of framework. Context smth that holds objects. Ex ApplicationContext in spring holds beans
 
 Skeleton
 Ex. JdbcTemplate. Hide the same steps of process
