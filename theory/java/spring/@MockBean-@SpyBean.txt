@@ -1,0 +1,7 @@
+@SpyBean
+// use real beans with ability to change it's behavior
+private InitialMessageTrackerImpl initialMessageTracker;
+
+@MockBean
+// Replace real bean with mocked in context
+private FilesStorage filesStorage;
