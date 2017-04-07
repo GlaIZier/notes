@@ -163,6 +163,7 @@ tcpdump -i eth0 // dump all packages
 tcpdump -i eth0 | grep ARP
 tcpdump -i eth0 > tcp.pcap
 tcpdump -i eth0 tcp port 80
+tcpdump -i lo tcp port 80 // capture localhost
 tcpdump -i eth0 tcp port 443 and host vk.com
 tcpdump -s0 -w lo.pcap -i lo // dump into the lo.pcap file s0 = buffersize 65K?
 tcpdump -s0 -w eth0-1.pcap -i eth0 'tcp port 80' // only tcp port 80

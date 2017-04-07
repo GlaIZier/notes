@@ -1,7 +1,7 @@
 Dummy - just fill in param (new Smth("blabla"))
 Fake - simple realization of smth. Not ready for prod. (eg H2 db, Debug web server)
 Stub - realization for tests that can check state
-Spy - stub which monitor calls
+Spy - stub which monitor calls. Usually it's a real object or bean on which u can change it's behavior or verify method calls
 Mock - replacement of real objects which return predefined values
 
 Stub
