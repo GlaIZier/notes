@@ -3,3 +3,5 @@ To enable lazy (to find as few times as possible) you can specify flag /U - this
 
 
 To find substrings in the regexp use (). This means groups. To replace in editor or in ide u can get a ling to different group using $ and number of a group. Eg, $3
+
+In java string.matches(regexp) checks that the whole string is satisfy regexp and if u want check that string contains regexp u should use Pattern.compile().matcher().find()

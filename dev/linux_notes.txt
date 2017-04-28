@@ -69,8 +69,16 @@ ssh 83.217.197.86  "tar x" < ~/d/Work\ Smile/Profiles\ And\ Scripts\ For\ Consol
 sudo apt-get update        # Fetches the list of available updates (update repositories)
 sudo apt-get upgrade       # Strictly upgrades (patches) the current packages
 sudo apt-get dist-upgrade  # Installs updates (new versions) include kernels
+
 sudo apt-get purge         # remove packages with configs
 sudo apt-get remove		   # remove packages without configs. To remove package u need to remove additionally their libs like rm -rf /var/lib/docker
+sudo apt-get remove --purge packagename # remove package with configs for all users
+Applications usually store configuration data in one of the following hidden folders, which you can delete if you're sure you have no use for the data:
+~/.application
+~/.config/application
+~/.cache/application
+~/.local/share/application
+
 sudo apt-get remove virtualbox-\* // remove virtualbox
 sudo apt-get purge virtualbox-\*  // remove all configs for virtual box
 sudo apt-get autoremove    # autoremove packages (removes unused packages)
