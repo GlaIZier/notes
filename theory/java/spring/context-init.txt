@@ -1,0 +1,43 @@
+Context initialization
+
+1. Config parsing (xml, Java, annotations, groovy)
+AnnotateBeanDefinitionReader, BeanDefinitionReader, ClassPathBeanDefinitionScanner
+Get BeanDefinition (Map<String, BeanDefinition>)
+
+2. BeanDefinition setup
+BeanDefinitionPostProcessor, BeanFactoryPostProcessor
+E.g. replace ("${host}") -> ("127.0.0.1")
+
+3. Custom FactoryBean creation
+FactoryBean<T>
+We can control process of bean creation by implementing FactoryBean interface
+
+4. BeanFactory creates bean instances, using default Java constructors (?) (new MyBean) and FactoryBean from 3d step if needed
+BeanFactory
+
+
+5. Beans setup
+BeanPostProcessor
+beforeInitialization (before @PostConstruct) before proxy for that bean were created
+afterInitialization (after @PostConstruct) after proxy for that bean were created (@Transactional, @Aspect)
+E.g. BeanPostProcessors for @Autowired, @PostConstruct(CommonAnnotationBeanPostProcessor) and other annotations
+
+6. Move created beans to container
+
+7. Context is up
+ApplicationListener
+(ContextRefreshedEvent, ContextStartedEvent ...)
+E.g. Warm db cache (when we need all methods be @Transactional)
+
+
+3 phases of bean constructions:
+
+Constructor (before bean was setup, no context, no injection). 4th step
+PostConstruct (after beforeInit methods of BeanPostProcessor, but before proxy) 5th step
+ApplicationListener (after all proxies were setup)
+
+
+Bean creation and init sequence:
+E.g beanA is dependent on nothing, but beanB is dependent on beanA (beanA is injected in beanB)
+Sequance:
+1th for all, 2nd for all, 3 for all, 4th for all, 5th for beanA (and all beanPostprocessors for it: injection of all beans that beanA is dependent on and other beanPostProcessors before init, @PostConstruct init method for it (CommonAnnotationBeanPostProcessor for it), making all proxies for it and all after init bean post processors), 5th for beanB (inject beanA bean postprocessor and other before init, @PostConstruct init method, making all proxies and after init bean post processors), 6th for all, 7th for all
