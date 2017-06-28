@@ -1,0 +1,3 @@
+When does autowiring by class fail?
+Eg, we have DaoImpl with @Transactional annotation on it. When spring starts it will say that it can't autowired because 
+it waits for DaoImpl to autowire but it has ...$Proxy 
