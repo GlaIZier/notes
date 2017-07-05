@@ -97,7 +97,7 @@ ln -sfn payments-web-0.7.4.jar payments.jar // create link
 
 tar -tf filename.tar.gz // watch files inside archive
 tar --verbose  -tf /home/itbackup/bkp_2015-09-14.tar.gz | grep '^d.+' // watch all catalogs
-tar -xf /vagrant/bkp_2015-09-02.tar.gz opt usr  // untar
+tar -xzf /vagrant/bkp_2015-09-02.tar.gz opt usr  // untar
 tar czf name_of_archive_file.tar.gz name_of_directory_to_tar // To tar and gzip a folder, the syntax is:
 
 

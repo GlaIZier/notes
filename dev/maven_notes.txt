@@ -181,3 +181,9 @@ systemctl status payments
 Аналог tail -f logs/catalina.out:
 journalctl -xf
 Все остальные логи хранятся в /opt/payments/logs.
+
+
+Force update snapshots:
+1. mvn dependency:resolve -U. Then reimport in Idea
+2. rm -rf ~/.m2/repository/<Path to updated>. Then mvn compile
+3. mvn dependency:purge-local-repository clean install
