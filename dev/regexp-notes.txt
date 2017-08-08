@@ -7,3 +7,5 @@ To find substrings in the regexp use (). This means groups. To replace in editor
 In java string.matches(regexp) checks that the whole string is satisfy regexp and if u want check that string contains regexp u should use Pattern.compile().matcher().find()
 
 In Java we need two / (//) to escape symbol in regexp because first one is for java String and the second one is for regexp itself
+
+To find smth except some string (?!red|green|blue) is used, eg: \/api\/(?!v\d*)[\S\s]* (/api/me/tasks - match; /api/v1/me/tasks -not). This regex in Java: \\/api\\/(?!v\\d*)[\\S\\s]* because we need to escape '\'.
