@@ -31,6 +31,21 @@ Ex. JdbcTemplate
 HashMap<Class<T>, singleton instance of T class>
 Context in term of framework. Context smth that holds objects. Ex ApplicationContext in spring holds beans
 
-Skeleton
+// Skeleton
 Ex. JdbcTemplate. Hide the same steps of process
 
+// Adapter
+We adapt existing class to different interface 
+class LongReturner() {
+	long returnLong(){...};
+}
+
+class LongReturnerAdapter extends LongReturner implements Readable {
+	int read(CharBuffer cb) {
+		String string = String.valueOf(returnLong());
+		cb.append(string);
+		return string.length();
+	}
+}
+
+Ex. Scanner
