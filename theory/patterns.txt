@@ -48,4 +48,31 @@ class LongReturnerAdapter extends LongReturner implements Readable {
 	}
 }
 
-Ex. Scanner
+Ex. Some Spring adapters
+
+// Strategy
+When method (Scanner constructor) accepts any interface (Readable):
+Ex. Scanner: Scanner(Readable r) {}
+
+// Factory
+Creates instance using some criteria like switch case or interface
+
+interface Game{ void move()}
+inteface GameFactory {Game getGame()}
+
+class Checkers impl Game{}
+class Chess impl Game{}
+
+class CheckersFactory impl GameFactory { Game getGame() {return new Checkers()}}
+class ChessFactory impl GameFactory { Game getGame() {return new Chess()}}
+
+playGame(GameFactory gf) {
+	gf.getGame().play();
+}
+
+main() {
+	playGame(new CheckersFactory());
+	playGame(new ChessFactory());
+}
+
+Ex. Some SAP libraries for Java
