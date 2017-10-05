@@ -55,7 +55,7 @@ When method (Scanner constructor) accepts any interface (Readable):
 Ex. Scanner: Scanner(Readable r) {}
 
 // Factory
-Creates instance using some criteria like switch case or interface
+Creates instance using some criteria like switch case or interface. 
 
 interface Game{ void move()}
 inteface GameFactory {Game getGame()}
@@ -74,5 +74,6 @@ main() {
 	playGame(new CheckersFactory());
 	playGame(new ChessFactory());
 }
+Also we can include factory classes to Game implementations as static methods returned anonymous factory implementation.
 
-Ex. Some SAP libraries for Java
+Ex. Some SAP libraries for Java, BeanFactory in Spring
