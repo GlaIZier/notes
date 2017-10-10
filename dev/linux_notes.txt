@@ -272,7 +272,7 @@ more
 // To make network work u need: interfaces addresses, default gateway and routes, dns, filters
 ip a // show interfaces on the machine
 ifconfig // show interfaces on the machine
-ip r // show routes
+ip r // show routes	
 ip ro get <ip address> // show route for this ip address
 brctl // bridges configuration
 /etc/network/interfaces
@@ -408,3 +408,8 @@ rsyslog // daemon to control logs. Config in /etc/rsyslog.conf and /etc/rsyslog.
 
 
 echo $? // show return code of last command
+
+// Scripts
+while :; do curl -v http://google.ru ; sleep 1 ; done // curl to google every 1 sec
+
+// When smth weird or wrong is happening try to downgrade kernel. Use grub to start with different kernel to check if it's true.
