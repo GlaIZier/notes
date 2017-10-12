@@ -50,6 +50,28 @@ class LongReturnerAdapter extends LongReturner implements Readable {
 
 Ex. Some Spring adapters
 
+// Adapter method
+class Cont<T> implements Iterable<T> {
+	public Iterator<T> iterator() {
+		...
+	}
+}
+
+class AdaptReverseCont<T> extends Cont<T> {
+	public Iterator<T> revIterator() {
+		<reversed implementation>
+	}
+}
+
+psvm() {
+	for (T t : cont) {
+	 <implementation>
+	}
+	for (T t : cont.revIterator()) {
+	 <reversed implementation>
+	}
+}
+
 // Strategy
 When method (Scanner constructor) accepts any interface (Readable):
 Ex. Scanner: Scanner(Readable r) {}
