@@ -27,8 +27,8 @@ maven install - load project to local repository that was described in
 
 using 
 	<extensions>
-        <extension>
-            <groupId>org.apache.maven.wagon</groupId>
+        <extension
+>            <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-ssh</artifactId>
             <version>2.8</version>
         </extension>
@@ -187,3 +187,21 @@ Force update snapshots
 :1. mvn dependency:resolve -U. Then reimport in Idea
 2. rm -rf ~/.m2/repository/<Path to updated>. Then mvn compile
 3. mvn dependency:purge-local-repository clean install
+
+
+// Maven settings for deploying to tomcat
+1. Place file settings.xml to home/.m2
+paste there
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 https://maven.apache.org/xsd/settings-1.0.0.xsd">
+<servers>
+<server>
+<id>127.0.0.1</id> // link to server in maven plugin
+<username>admin</username>
+<password>admin</password>
+</server>
+</servers>
+</settings>
+
+in tomcat-home/conf/tomcat-users.xml there have to be a record 
+<role rolename="manager-script"/>
+<user username="admin" password="admin" roles="tomcat, manager-gui, manager-script"/>
