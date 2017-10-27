@@ -1,6 +1,43 @@
 //Proxy
 Is widely used in Spring to implement AOP principle and to inject session type beans in singleton one. Spring use proxies to handle such situations. Also is used in OSGI to handle dynamic module load.
 
+SimpleProxy:
+inteface I {
+	void m();
+}
+
+class C implements I {
+	void m();
+}
+
+class Proxy implements I {
+	public Proxy(I proxied) {
+	 ...
+	}
+
+	void m() {
+		... // some proxied actions
+		proxied.m(); // call for proxied class
+	}
+}
+
+DynamicProxy:
+class DynamicProxyHandler implements InvocationHandler {
+	public DynamicProxyHandler(Object proxied) {
+		this.proxied = proxied;
+	}
+	public Object invoke(Object proxy, Method method, Object[] args) {
+		... // some proxy logic
+		return method.invoke(proxied, args);
+	}
+}
+
+RealObject real = new RealObject();
+Interface proxy = (Interface) Proxy.newProxyInstance(Interface.class.getClassLoader(), new Class[]{ Interface.class }, new DynamicProxyHandler(real));
+proxy.m();
+
+Ex. Spring, DynamicProxy in Java
+
 
 //DI
 Ex. public ConstructedClass() { new AnotherConstructedClassImpl; ...} -> public ConstructedClass(IAnotherConstructedClass acc) {...}. So first example is depended on AnotherConstructedClassImpl, but in the second one we inject dependency interface (IAnotherConstructedClass) in code. That's why it is called dependency injection.
