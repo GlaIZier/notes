@@ -136,3 +136,11 @@ main() {
 Also we can include factory classes to Game implementations as static methods returned anonymous factory implementation.
 
 Ex. Some SAP libraries for Java, BeanFactory in Spring
+
+//  Universal interfaces 
+Sometimes there is a problem when u have some general interface for example Dao for payment system and lots of implementations like sber, cyberplat, qiwi ...
+But these implementation somewhere are very close to each other (addPayment()) but somewhere are not (getVersion()). So, what should we do? Do we need to place all possible methods to the parent Dao and make implementations to throw UnsupportedOperationException? There are three possible strategies:
+1. make the universal interface and make implementations to throw UnsupportedOperationException.
+2. like the first one but make adapters for each specific implementation.
+3. make the hierarchy of specific dao interfaces and place there some specific for each implementations methods. And use the runtime type info for casting each dao to more specific dao interface.
+4. make the specific methods more general to make them useful for the whole range of implementations(like, getVersion() -> getPaymentInforamtion())
