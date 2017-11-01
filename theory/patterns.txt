@@ -148,3 +148,17 @@ But these implementation somewhere are very close to each other (addPayment()) b
 // Generator 
 Pattern to create instance of some class. Usually don't have any param in method. So, it returns some random element.
 interface Generator<T> { T next(); } 
+
+public class BGenerator<T> implements Generator<T> {
+	private Class<T> type;
+	public BGenerator(Class<T> type) {
+	this.type = type;
+	}
+	public T next() {
+		type.newInstance();
+	}
+	public static <T> Generator<T> create(Class<T> type) {
+	return new BGenerator<T>(type);
+	}
+}
+
