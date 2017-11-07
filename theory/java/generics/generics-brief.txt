@@ -32,7 +32,7 @@ So u can assign subclass lists but u can't put here.
 
 
 
-If u write List<? super Number> then u guarantie that u can PUT smth that is Number in this collection. (so it is for put usage only, "recever", "out"). U can put all that extends Number to this collection. But get() returns only Object.
+If u write List<? super Number> then u guarantie that u can PUT smth that is Number in this collection. (so it is for put usage only, "recever", "out"). U can put all that extends Number but not Object or any other super class to Number to this collection because you don't know exactly what type is inside (Number or Object or smth else. So u can put only more precise class).  But get() returns only Object.
 And u can assign it List<Number>, List<Object>, List<? super Object>. But not List<? super Integer>, List<Integer>, List<Double>, List<?>, List<? extends Number>. Because of the suptyping, see link below.
     @Test
     public void lowerBoundWildcardBriefTest() {

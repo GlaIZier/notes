@@ -1,0 +1,11 @@
+1. Added another field custom field to Redmine. And our fsb app used Redmine Api. So we get error. But there was good logging system and i saw problem in 5 seconds
+2.
+Some changes in db that caused problems in java server side. And we hadn't tests for it so it was not pleasant.
+3.
+Coluldn't clone from git repo. Didn't have rights on some files inside
+4.
+Was resting in Thailand. A call from Olya (db developer) that diadock was not working and she checked all her part on the db side. I had been running to get my laptop and the internet. Finally i've got my laptop. And the thing i noticed, password to the database, that has been given me by Olya had expired. So she didn't check this moment at all. For her it was simpler to call me to Thailand than check all in db by herself.
+5.
+Couldn't add ews (Outlook online) account to the Evolution mail client. When i had tried to add account nothing happened. Tried to launch it as root. This helped. Full solution was like doing some weird things written here https://bugs.launchpad.net/ubuntu/+source/evolution-ews/+bug/1312888
+6.
+Smth weird started to happen with my Ubuntu 16.04. At first, it couldn't wake up after screen dim. Next internet became super slow. By doing curl to google in a loop I understood that there is some problem with getting ip addresses. First it tries to get ip v4 address and immediately after ip v6 address, which are almost not supported in Russia, so it can't be routed. Disabling on my host ip v6 didn't help. Only after downgrading kernel from 4.10.0-37-generic to 4.8.0-58-generic everything has been repaired.

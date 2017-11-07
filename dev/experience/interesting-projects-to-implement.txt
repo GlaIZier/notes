@@ -1,0 +1,19 @@
+1.
+Project to explain and recommend people methods of treatment that are used in USA, Europe. Drugs analogs...
+2.
+ TODO list in kanban style with board
+3.
+Create electronic pin map where u have been. Js
+4.
+Cloud call blocker. Check most blockable phone numbers for different countries
+5.
+Ansible my own workspace Mac OS, ubuntu
+6.
+Knowledge database. Similar to Evernote and keep but better
+7.
+Some simple mobile game
+8.
+Some simple mobile app
+9.
+Machine learning bot
+10.

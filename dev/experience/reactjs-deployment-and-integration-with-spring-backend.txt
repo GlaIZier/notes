@@ -1,0 +1,30 @@
+1. Js tools for development and deployment.
+
+- Dependency and package managers. They just download and store dependencies in the directory of the project. Ex: npm, bower.
+npm is a standard for now.
+- Task runners. Ex: grunt, gulp. They are task runners to automate everything that can be automated (i.e. compile css/sass, optimize images, make a bundle and minify/transpile it. grunt vs gulp (is like maven vs gradle or configuration vs code). Grunt is based on configuring separate independent tasks, each task opens/handles/closes file. Gulp requires less amount of code and is based on node streams, which allows it to build pipe chains (w/o reopening the same file) and makes it faster.
+- Packaging to bundle. Ex: webpack. Webpack is a task runner too. So it is more useful and convenient tool to create bundle (make 1 js file from all ur dependencies and sources) for ur frontend project.
+- Also u may use pretranslator to translate eg sass -> css and ES6 -> ES older standards, JSX -> JS. Ex: babel, which is used with ReactJs
+
+2. Front-end - Back-end project integration
+Two ways: Create one project for all or separate projects.
+
+If u develop in one project you can do:
+
+- https://spring.io/guides/tutorials/react-and-spring-data-rest/. Take maven and maven-frontend plugin to set it so, it can do npm install and webpack to bundle. If u r using Spring boot that's how u'll get jar with all functionality for prod deployment. Need to mention that u need to store all ur front-end project files in resources/static folder and templates for Spring MVC back-end in resources/templates folder. And also u need to write path in ur template like that: "../build/bundle.js" without static folder in the path. Don't know why...
+For development purposes u can start ur application with main class in IDE. Then go to the root folder of ur front-end project and type in command "webpack -d -w" to use client-side hot reload. U need to configure ur webpack so it will output the same 2 bundles in two different ways: for prod deployment and for dev deployment (to place in target/classes):
+var JS_DIR = path.resolve(__dirname, 'src/js');
+
+- ...
+entry: {
+'build': JS_DIR + '/test.js',
+- '../../../../target/classes/static/build': JS_DIR + '/test.js'
+- },
+output: {
+- path: './',
+- filename: '[name]/bundle.js'
+- },
+
+- Take gradle and https://github.com/akhikhl/gretty plugin. To deploy in prod env u can do exact the same steps as in 1.
+- For development u need to use gretty plugin which can update scripts inside war archive or smth like that.
+- Take dockers and make 2 different projects: front-end with nginx which can response static page with all scripts and transmit requests to back-end api to back-end server and back-end server itself. So u will have 2 docker containers with 2 different applications: front-end which takes user requests and transmit requests to back-end if need it and back-end which response with json

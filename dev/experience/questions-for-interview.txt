@@ -1,0 +1,36 @@
+Middle, Senior
+General
+
+- Why did u retire from other job?
+- What  do motivates people to work?
+- Why do people retire from last jobs?
+
+Http, protocols?
+- Different
+- What is protocol in general?
+- POST/GET diff?
+
+- Why do u program on ...?
+- What books/articles did u read?
+- Good code and bad code? What is it bad?
+- How do u debug?
+- What is architecture?
+- What problems did u solve and how?
+Tasks:
+- Angle between two arrows in clock? O()?
+- Check if a string is valid? )((()())()))(())))))))) O?
+- Check if a number is a 2^x? O?
+- Invert a string? O?
+- Add numbers as string without casting???? O?
+
+Sql:
+- What are indeces?
+- How do indeces work?
+- Cluster index and non one?
+- B-tree? Hash index? Diff? When do we need to choose one or other?
+
+- What patterns do u know and use?
+- https://habrahabr.ru/post/265061/
+- Java Deriviation, Interfaces
+- Java Generics, ?
+- Java Collections
