@@ -1,0 +1,7 @@
+Covariance vs Contrvariance
+
+Covariance: If Animal <- Cat => Array<Animal> <- Array<Cat>. I can put any Cat in the array of Animal
+Contrvariance: If Object <- String => Action<String> <- Action<Object>. If I can do an action with any Object then I can do the action with any String.
+Invariance. No relationship.
+
+Java:

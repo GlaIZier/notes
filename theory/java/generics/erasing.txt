@@ -1,0 +1,39 @@
+Erasing:
+new ArrayList<String>.getClass() = new ArrayList<Integer>.getClass()
+
+public class Erased<T> {
+    psvm(String ...) {
+        // because of the erasion this doesn't work
+        if (arg instanceof T) // error
+        T v = new T() // error
+        T[] a = new T[10] // arror
+        T[] a = (T[]) new Object[10] // warning
+    }
+}
+
+// How to create an array of generics in Java
+class GA<T> {
+    private T[] a;
+
+    public GA(int size) {
+     a = (T[]) new Object[size];
+    }
+
+    public void put(int index, T item) {
+        a[index] = item;
+    }
+
+    public T get(int index) {
+        return a[index];
+    }
+
+    public T[] rep() {
+        return a;
+    }
+
+    psvm(String ...) {
+        GA<Integer> ga = new GA<>(10);
+        Object[] oa = ga.rep() // OK
+        Integer[] ia = ga.rep() // ClassCastException because actually this is the array of Objects, not Integer (see the constructor) 
+    }
+}
