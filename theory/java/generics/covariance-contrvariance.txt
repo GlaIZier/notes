@@ -5,3 +5,10 @@ Contrvariance: If Object <- String => Action<String> <- Action<Object>. If I can
 Invariance. No relationship.
 
 Java:
+Arrays are covariant in Java: Fruit <- Apple <- Jonathan:
+Fruit[] fruits = new Apple[10];
+fruits[0] = new Apple(); // Ok
+fruits[1] = new Jonathan(); // Ok
+But the actual type is Apple[], so
+fruits[2] = new Fruit() // Exception
+fruits[3] = new Orange // Exception

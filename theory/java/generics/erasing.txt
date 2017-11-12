@@ -37,3 +37,55 @@ class GA<T> {
         Integer[] ia = ga.rep() // ClassCastException because actually this is the array of Objects, not Integer (see the constructor) 
     }
 }
+
+// Another way
+class GA<T> {
+    private Object[] a;
+
+    public GA(int size) {
+     a = new Object[size];
+    }
+
+    public void put(int index, T item) {
+        a[index] = item;
+    }
+
+    public T get(int index) {
+        return (T) a[index];
+    }
+
+    public T[] rep() {
+        return (T[]) a; // warning. Wrong casting
+    }
+
+    psvm(String ...) {
+        GA<Integer> ga = new GA<>(10);
+        Integer[] ia = ga.rep() // Anyway ClassCastException because actually this is the array of Objects, not Integer (see the constructor) 
+    }
+}
+
+// How to create an array of actual type 
+class GA<T> {
+    private T[] a;
+
+    public GA(Class<T> type, int size) {
+        a = (T[]) Array.newInstance(type, size);
+    }
+
+    public void put(int index, T item) {
+        a[index] = item;
+    }
+
+    public T get(int index) {
+        return a[index];
+    }
+
+    public T[] rep() {
+        return a; 
+    }
+
+    psvm(String ...) {
+        GA<Integer> ga = new GA<>(10);
+        Integer[] ia = ga.rep() // Now this works. 
+    }
+}
