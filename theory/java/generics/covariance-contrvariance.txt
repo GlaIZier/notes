@@ -4,11 +4,37 @@ Covariance: If Animal <- Cat => Array<Animal> <- Array<Cat>. I can put any Cat i
 Contrvariance: If Object <- String => Action<String> <- Action<Object>. If I can do an action with any Object then I can do the action with any String.
 Invariance. No relationship.
 
+The actual type is the type created by with the word new.
 Java:
-Arrays are covariant in Java: Fruit <- Apple <- Jonathan:
+Arrays are covariant in Java: [Fruit] <- [Apple] <- [Jonathan]:
 Fruit[] fruits = new Apple[10];
 fruits[0] = new Apple(); // Ok
 fruits[1] = new Jonathan(); // Ok
 But the actual type is Apple[], so
 fruits[2] = new Fruit() // Exception
 fruits[3] = new Orange // Exception
+
+Lists, generics of different types are invariant in Java: 
+List<Fruit> fruits = new ArrayList<Apple>() // Error. Incompatible types
+Generic which is connected to Fruit can't be assigned to one connected with Apple
+
+Lists, generics that are covariant use ? extends: List<?> <- List<? extends Number> <- List<? extends Integer> <- List<Integer>
+List<? extends Fruit> fruits = new ArrayList<Apple>(); 
+But u can't add anyting there because the compliler doesn't know the exact type of list. If we could do it, then we were able to add there oranges or bananas or Fruit. That would lead to cast exceptions in runtime because actual type is the list of Apple. (See Arrays above)
+fruits.add(new Apple()); // can't do it
+fruits.add(new Fruit()); // can't do it
+fruits.add(new Object()); // can't do it
+fruits.add(null) // Ok
+fruits.contains(new Apple); // Ok because the argument of this method is Object
+fruits.indexOf(new Apple); // Ok because the argument of this method is Object
+
+Lists, generics that are contrvariant use ? super: List<?> <- List<? super Integer> <- List<? super Number> <- List<Number>
+																					<- List<Integer>
+
+List<? super Apple> apples = new ArrayList<Fruit>();
+// As we know that the actual type is Apple or some base class to Apple than we can add anything that is Apple or derived from Apple: 
+apples.add(new Apple()) // Ok
+apples.add(new Jonathan()) // Ok
+// But as we don't know the exact actual type: it could be Fruit, or Object, or Appel itself. This can lead to the errors of casting: eg the actual type is Apple and we try to add Fruit, so:
+apples.add(new Fruit()) // Error
+Object o = apples.get(0) // will return Object as we don't know the exact type

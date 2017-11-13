@@ -1,0 +1,20 @@
+The main difference is that the first line compiles but the second does not:
+
+List<?> list = new ArrayList<String> (); // Ok
+List<Object> list = new ArrayList<String> (); // Error
+However, because you don't know what the generic type of List<?> is, you can't use its parameterized methods:
+
+List<?> list = new ArrayList<String> ();
+list.add("aString"); //does not compile - we don't know it is a List<String>
+list.clear(); //this is fine, does not depend on the generic parameter type
+As for the difference with raw types (no generics), the code below compiles and runs fine:
+
+List list = new ArrayList<String> ();
+list.add("aString"); // Ok
+list.add(10); // Ok
+
+And one other difference is ideological: 
+List is a raw type, deprecated. We say that this list can be one with different types inside: like String, number, Object.
+List of unbound <?> we say that we don't know the exact type, but the type must be the only one: only String eg. So we can't add there anything and we can get only Object.
+List of Object is just a list of object. 
+List<? extends Object> is almost the same as List<?>: but T extends Object & Foo will cause T to become Object under erasure, whereas T extends Foo cause T to become Foo
