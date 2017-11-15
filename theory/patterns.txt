@@ -162,3 +162,20 @@ public class BGenerator<T> implements Generator<T> {
 	}
 }
 
+// Strategy
+Leave unchangable logic in the method and provide changable logic incapsulated in the class:
+
+Ex: Arrays.sort(T[], <? super T> comparator)
+
+// Decorator
+Is used to add functionality to the existing functionality:
+
+DataInputStream in = new DataInputStream(
+	new ByteArrayInputStream(
+		BufferedInputFile.read("file.java").getBytes()
+	)
+);
+while (true)
+	sout(in.readByte());
+
+Ex. Java IO
