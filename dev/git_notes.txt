@@ -20,3 +20,5 @@ git rebase -i HEAD~2
 
 // Problem please make sure you have the correct access rights and the repository exists.
 // check that ur user group does not override rights
+
+git rm --cached -r <dir> // remove dir from tracked file
