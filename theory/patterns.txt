@@ -178,4 +178,7 @@ DataInputStream in = new DataInputStream(
 while (true)
 	sout(in.readByte());
 
+DataInputStream holds a link to ByteArrayInputStream which holds a link to BufferedInputFile. But they are all InputStream
+So DataInputStream adds some custom functionality (decorates) and call for next inputstream read method and so forth.
+
 Ex. Java IO
