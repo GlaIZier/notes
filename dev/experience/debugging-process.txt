@@ -1,0 +1,5 @@
+Debugging process
+
+1. Enable debugging in logging. E.g., in logback.xml add  <logger name="org.springframework" level="DEBUG"/>
+2. Understand what is going on under the hood. E.g., what bean is used for what purposes in a function that doesn't work.
+3. Trace and debug using breakepoints inside this core function (eg, inside the bean)
