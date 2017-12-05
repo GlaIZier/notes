@@ -1,3 +1,9 @@
+// Requirements for deadlocks:
+// 1. At least one resource has to be shared.
+// 2. At least one thread need to take one monitor and waits for another monitor
+// 3. The monitor can't be steal from another task
+// 4. There must be a ciclyc waiting
+
 public class DeadLockDemo {
 
     /*
@@ -32,6 +38,7 @@ public class DeadLockDemo {
 
 
 // And now fixed example
+// U need just to rip off the ciclyc dependency
 public class DeadLockFixed {
 
     /**
