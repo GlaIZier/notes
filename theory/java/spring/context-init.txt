@@ -18,9 +18,10 @@ BeanFactory
 
 5. Beans setup
 BeanPostProcessor
-beforeInitialization (before @PostConstruct) before proxy for that bean were created
+beforeInitialization (before @PostConstruct) before proxy for that bean were created. Usually is used for injection (@Autowired).
 afterInitialization (after @PostConstruct) after proxy for that bean were created (@Transactional, @Aspect)
 E.g. BeanPostProcessors for @Autowired, @PostConstruct(CommonAnnotationBeanPostProcessor) and other annotations
+Order of calls for BeanPostProcessors is detemined by Spring (enclosed inside Spring and bean postprocessors' sources eg AutowiredAnnotationBeanPostProcessor: 	private int order = Ordered.LOWEST_PRECEDENCE - 2;)
 
 6. Move created beans to container
 
@@ -40,4 +41,4 @@ ApplicationListener (after all proxies were setup)
 Bean creation and init sequence:
 E.g beanA is dependent on nothing, but beanB is dependent on beanA (beanA is injected in beanB)
 Sequance:
-1th for all, 2nd for all, 3 for all, 4th for all, 5th for beanA (and all beanPostprocessors for it: injection of all beans that beanA is dependent on and other beanPostProcessors before init, @PostConstruct init method for it (CommonAnnotationBeanPostProcessor for it), making all proxies for it and all after init bean post processors), 5th for beanB (inject beanA bean postprocessor and other before init, @PostConstruct init method, making all proxies and after init bean post processors), 6th for all, 7th for all
+1th for all, 2nd for all, 3 for all, 4th for all, 5th for beanA (and all beanPostprocessors for it: injection of all beans that beanA is dependent on and other beanPostProcessors before init, @PostConstruct init method for it (CommonAnnotationBeanPostProcessor for it), making all proxies for it and all after init bean post processors), 5th for beanB (inject beanA bean postprocessor and other before init, @PostConstruct init method, making all proxies and after init bean post processors). So the order of bean loading is implicitly determined by dependencies and transitive dependencies. 6th for all, 7th for all.

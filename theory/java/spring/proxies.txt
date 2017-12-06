@@ -1,0 +1,4 @@
+The most of spring functions work with proxy pattern. This means that annotations like @Transactional, @Aspect or @Async is nothing more then a pointer for beanpostprocessors to create proxies around it. 
+So if you call, for instance, @Async method locally inside a class this method won't run concurrently.
+
+Order of proxies is determined by bean postprocessors. And the order of calls for BeanPostProcessors is detemined by Spring (enclosed inside Spring and bean postprocessors' sources eg AutowiredAnnotationBeanPostProcessor: 	private int order = Ordered.LOWEST_PRECEDENCE - 2;)
