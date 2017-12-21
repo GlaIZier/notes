@@ -1,4 +1,29 @@
 Middle, Senior
+
+Java
+Representation of information in computer? // 2
+What is the size of Integer in 32 bit and 64bit Java? // 4 bytes
+Max value of Integer? // 2^31 - 1? Why -1? How to get it in Java? // Integer.MAX_VALUE
+What will happen if we increment max int by one? // -2147483648
+
+What is a intera
+What is complexity of String.substring() in Java? Java 6, 7? Why did they change the behavior?
+
+
+Algorithms:
+What is hash?
+What is good hash?
+HashMap and TreeMap: internal structure?
+Why is TreeMap sorted?
+Why is HashMap unsorted?
+What is a good data structure for cache in Java with evicting and searching? // LinkedHashMap
+How to implement a good data structure for it?
+
+What is the complexity of substing?
+Can you create a data structure for string that will return substring in constant time? 
+
+
+
 General
 
 - Why did u retire from other job?
