@@ -6,8 +6,39 @@ What is the size of Integer in 32 bit and 64bit Java? // 4 bytes
 Max value of Integer? // 2^31 - 1? Why -1? How to get it in Java? // Integer.MAX_VALUE
 What will happen if we increment max int by one? // -2147483648
 
-What is a intera
+What structure String is based on?
 What is complexity of String.substring() in Java? Java 6, 7? Why did they change the behavior?
+
+How to create an array of generics? // new Object[] and casting but then while returning this array as T[] there will be class cast exception because actually it is Object[] or  public GA(Class<T> type, int size) {
+        a = (T[]) Array.newInstance(type, size);
+    } 
+}
+
+
+Covariance and contrvariance?
+Arrays are covariant in Java: [Fruit] <- [Apple] <- [Jonathan]:
+Fruit[] fruits = new Apple[10];
+fruits[0] = new Apple(); // Ok
+fruits[1] = new Jonathan(); // Ok
+But the actual type is Apple[], so
+fruits[2] = new Fruit() // Exception
+fruits[3] = new Orange // Exception
+
+List<? extends Number> l = new ArrayList<Integer>();
+l = new ArrayList<Double>();
+l = new ArrayList<Number>();
+//        l = new ArrayList<Object>();
+//        l.add(new Object());
+//        l.add(new Integer(5));
+l.add(null);
+
+List<? super Number> l2 = new ArrayList<Number>();
+l2 = new ArrayList<Object>();
+//        l2 = new ArrayList<Integer>();
+l2.add(new Integer(5));
+l2.add(new Number() {...});
+//        l2.add(new Object());
+l2.add(null);
 
 
 Algorithms:
@@ -16,12 +47,37 @@ What is good hash?
 HashMap and TreeMap: internal structure?
 Why is TreeMap sorted?
 Why is HashMap unsorted?
+Which one is faster?
 What is a good data structure for cache in Java with evicting and searching? // LinkedHashMap
 How to implement a good data structure for it?
 
 What is the complexity of substing?
 Can you create a data structure for string that will return substring in constant time? 
 
+
+Linux: 
+You have a cluster. And it becomes to respond not every time or it takes so much time to respond. What would u do to understand what is the reasone of that? // ping, top, logs, ps to find logs, systemctl, iptables.
+U have some library that is a wrapper around some api? And it returns some weird error, or not what u expected. What would u do? With sources? Without sources? // tcpdump, Wireshark
+
+Git:
+Typical flow? // git log, git branch, git branch --remote, git branch, git checkout, git merge
+How to make one commit from two? // rebase --interactive HEAD~2 pick   b76d157 b squash a931ac7 c
+
+Debug:
+How do u debug?
+
+Deploy:
+How do u deploy in your company?
+
+DB:
+What are indexes?
+Do we always need indexes?
+When full scan can be faster than index search?
+Will index work if index.substring(3, 7)?
+Cover index?
+Cluster index and non one? // index connected to the data itself
+The most typic datastructure to store indexes? // b-tree
+B-tree? Hash index? Diff? When do we need to choose one or other?
 
 
 General

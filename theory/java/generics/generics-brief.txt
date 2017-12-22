@@ -1,3 +1,19 @@
+List<? extends Number> l = new ArrayList<Integer>();
+l = new ArrayList<Double>();
+l = new ArrayList<Number>();
+//        l = new ArrayList<Object>();
+//        l.add(new Object());
+//        l.add(new Integer(5));
+l.add(null);
+
+List<? super Number> l2 = new ArrayList<Number>();
+l2 = new ArrayList<Object>();
+//        l2 = new ArrayList<Integer>();
+l2.add(new Integer(5));
+l2.add(new Number() {...});
+//        l2.add(new Object());
+l2.add(null);
+
 If u write List<? extends Number> then u guarantie that u can GET smth that is Number from this collection. (so it is for get usage only, "producer", "in"). get() returns Number
 And u can assign it List<Integer>, List<Double>, List<Number>, List<? extends Integer>. But not List<Object>, List<?>, List<? super Number>. Because of the suptyping, see link below
     @Test
