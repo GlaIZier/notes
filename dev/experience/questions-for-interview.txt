@@ -5,17 +5,51 @@ Representation of information in computer? // 2
 What is the size of Integer in 32 bit and 64bit Java? // 4 bytes
 Max value of Integer? // 2^31 - 1? Why -1? How to get it in Java? // Integer.MAX_VALUE
 What will happen if we increment max int by one? // -2147483648
-
 What structure String is based on?
 What is complexity of String.substring() in Java? Java 6, 7? Why did they change the behavior?
 
-How to create an array of generics? // new Object[] and casting but then while returning this array as T[] there will be class cast exception because actually it is Object[] or  public GA(Class<T> type, int size) {
-        a = (T[]) Array.newInstance(type, size);
-    } 
-}
+Recursion:
+Tail is a recursion where the last operator is a call to another a recursed function or precedure
+Non-tail - other one.
+Tail can be converted to iterable process by compiler
 
+Tests:
+Dummy - just fill in param (new Smth("blabla"))
+Fake - simple realization of smth. Not ready for prod. (eg H2 db, Debug web server)
+Stub - realization for tests that can check the state
+Spy - stub which monitor calls. Usually it's a real object or bean on which u can change it's behavior or verify method calls
+Mock - replacement of real objects which return predefined values
 
-Covariance and contrvariance?
+SOLID
+Single responibility. 
+One class - one purpose and do it well
+Ex. class Order that shows orders, get them from db, print them -> Order, OrderRepository for db, OrderPrinter
+
+Open/closed principle
+Open to extend, closed to modification.
+Ex. use interfaces -> DaoInterface and MySqlDao, PostgresDao, CloudDao, RestDao...
+
+Liskov Substitution
+Fucntions that use base classes should be able to use derived classes instead of base without knowing nothing about it.
+Before method call conditions can't be extended in derived class
+After conditions can't be weaken in derived class 
+Ex. Square derived from Rectangle. Square class weaked condition to size of height and width. They became equal.
+
+Interface Segregation
+Client doesn't have to depend on interface methods he doesn't need. U should use more specific interfaces instead of one universal
+Ex. One interface to send data and to flush results somewhere. U need to separate it.
+Ex. of bad practice: SQLException fits several exceptions (no connect, wrong syntax, constaint error ...) that can't tell u what is actually going on.
+
+Dependency invertion
+High-level modules should not depend on low-level modules. Both should depend on abstractions.
+Abstractions should not depend on details. Details should depend on abstractions.
+In simple words high level abstraction (business logic) has to depend on low level abstraction (inteface of low level classes such as work with IO or http e.g. or abstract layer)
+Ex. In one class (method) we create another object of some class. -> create interface (abstraction) of created object and we can provide this realization of interface to the method or use container's dependency injection  
+Another way to use this principe is to use container's dependency injection, service locator antipattern or plugin
+
+// Generics
+
+// Covariance and contrvariance?
 Arrays are covariant in Java: [Fruit] <- [Apple] <- [Jonathan]:
 Fruit[] fruits = new Apple[10];
 fruits[0] = new Apple(); // Ok
@@ -41,6 +75,94 @@ l2.add(new Number() {...});
 l2.add(null);
 
 
+//Difference between raw type, Object and unbound
+The main difference is that the first line compiles but the second does not:
+
+List<?> list = new ArrayList<String> (); // Ok
+List<Object> list = new ArrayList<String> (); // Error
+However, because you don't know what the generic type of List<?> is, you can't use its parameterized methods:
+
+List<?> list = new ArrayList<String> ();
+list.add("aString"); //does not compile - we don't know it is a List<String>
+list.clear(); //this is fine, does not depend on the generic parameter type
+As for the difference with raw types (no generics), the code below compiles and runs fine:
+
+List list = new ArrayList<String> ();
+list.add("aString"); // Ok
+list.add(10); // Ok
+
+And one other difference is ideological: 
+List is a raw type, deprecated. We say that this list can be one with different types inside: like String, number, Object.
+List of unbound <?> we say that we don't know the exact type, but the type must be the only one: only String eg. So we can't add there anything and we can get only Object.
+List of Object is just a list of object. 
+List<? extends Object> is almost the same as List<?>: but T extends Object & Foo will cause T to become Object under erasure, whereas T extends Foo cause T to become Foo 
+
+Reflection:
+DynamicProxy:
+class DynamicProxyHandler implements InvocationHandler {
+	public DynamicProxyHandler(Object proxied) {
+		this.proxied = proxied;
+	}
+	public Object invoke(Object proxy, Method method, Object[] args) {
+		... // some proxy logic
+		return method.invoke(proxied, args);
+	}
+}
+RealObject real = new RealObject();
+Interface proxy = (Interface) Proxy.newProxyInstance(Interface.class.getClassLoader(), new Class[]{ Interface.class }, new DynamicProxyHandler(real));
+proxy.m();
+
+
+How to create an array of generics? // new Object[] and casting but then while returning this array as T[] there will be class cast exception because actually it is Object[] or  public GA(Class<T> type, int size) {
+        a = (T[]) Array.newInstance(type, size);
+    }
+}
+
+Multithreading:
+Atomic implementation:
+Usage of atomic hardware function (implemented in dif environments different) compareAndSwap that compares two values (memory cells: valueOffset and expect) and if true swap with update value. Function returns true if there was swap.
+Java code:
+compareAndSwapInt(this, valueOffset(current value in memory?), expect, update)
+while (true) {
+	int cur = get(); // get current value volatile. So valueOffset after success exec of compareAndSet will get next value 
+	int next = cur + 1;
+	if (compareAndSet(cur, next)
+		return next;
+}
+compareAndSet(...) {
+	return unsafe.compareAndSwap(this, valueOffset, cur, next);
+}
+CopyOnWriteArrayList - copy full array on write to avoid concurrency modification exception
+
+Multithread singleton implementation:
+private static final Singleton INSTANCE = new Singleton(); // init by class loader that guaranties to be happend without concurrency issues
+
+
+class IncrementorThread extends Thread {
+
+	private static volatile int i; // doesn't work because we don't cache inside thread but this doesn't make i++ atomic. 3 oper : read i; i++; write i. So we can loose results
+
+	public void run() {
+		for (int ii = 0; ii < 100_000; ii++)	
+			increment();
+	} 
+
+	// doesn't work because each object is lock on it's own lock. But variable is shared because it is static. We can add static to the method or add static lock to make this work
+	public synchronized increment() {
+		i++;
+	}
+
+}
+
+What would happen if we place volatile on long or double?
+
+Deadlock requirements:
+// 1. At least one resource has to be shared.
+// 2. At least one thread need to take one monitor and waits for another monitor
+// 3. The monitor can't be steal from another task
+// 4. There must be a ciclyc waiting
+
+
 Algorithms:
 What is hash?
 What is good hash?
@@ -48,11 +170,57 @@ HashMap and TreeMap: internal structure?
 Why is TreeMap sorted?
 Why is HashMap unsorted?
 Which one is faster?
+Check if a number is a 2^x? O? O(log) if we divide and O(1) if (x & (x - 1)) == 0 beware of 0 case.
 What is a good data structure for cache in Java with evicting and searching? // LinkedHashMap
 How to implement a good data structure for it?
-
 What is the complexity of substing?
-Can you create a data structure for string that will return substring in constant time? 
+Can you create a data structure for string that will return substring in constant time?
+Angle between two arrows in clock? O()?
+Check if a string is valid? )((()())()))(())))))))) O?
+
+
+Spring:
+When does spring create proxy using Dynamic proxy and using CGLib?
+If we print bean.getClass().toString() what most probably will we have? // Proxy
+
+Context initialization:
+1. Config parsing (xml, Java, annotations, groovy)
+AnnotateBeanDefinitionReader, BeanDefinitionReader, ClassPathBeanDefinitionScanner
+Get BeanDefinition (Map<String, BeanDefinition>)
+2. BeanDefinition setup
+BeanDefinitionPostProcessor, BeanFactoryPostProcessor
+E.g. replace ("${host}") -> ("127.0.0.1")
+3. Custom FactoryBean creation
+FactoryBean<T>
+We can control process of bean creation by implementing FactoryBean interface
+4. BeanFactory creates bean instances, using default Java constructors (?) (new MyBean) and FactoryBean from 3d step if needed
+BeanFactory
+5. Beans setup
+BeanPostProcessor
+beforeInitialization (before @PostConstruct) before proxy for that bean were created. Usually is used for injection (@Autowired).
+afterInitialization (after @PostConstruct) after proxy for that bean were created (@Transactional, @Aspect)
+E.g. BeanPostProcessors for @Autowired, @PostConstruct(CommonAnnotationBeanPostProcessor) and other annotations
+Order of calls for BeanPostProcessors is detemined by Spring (enclosed inside Spring and bean postprocessors' sources eg AutowiredAnnotationBeanPostProcessor: 	private int order = Ordered.LOWEST_PRECEDENCE - 2;)
+6. Move created beans to container
+7. Context is up
+ApplicationListener
+(ContextRefreshedEvent, ContextStartedEvent ...)
+E.g. Warm db cache (when we need all methods be @Transactional)
+3 phases of bean constructions:
+Constructor (before bean was setup, no context, no injection). 4th step
+PostConstruct (after beforeInit methods of BeanPostProcessor, but before proxy) 5th step
+ApplicationListener (after all proxies were setup)
+Bean creation and init sequence:
+E.g beanA is dependent on nothing, but beanB is dependent on beanA (beanA is injected in beanB)
+Sequance:
+1th for all, 2nd for all, 3 for all, 4th for all, 5th for beanA (and all beanPostprocessors for it: injection of all beans that beanA is dependent on and other beanPostProcessors before init, @PostConstruct init method for it (CommonAnnotationBeanPostProcessor for it), making all proxies for it and all after init bean post processors), 5th for beanB (inject beanA bean postprocessor and other before init, @PostConstruct init method, making all proxies and after init bean post processors). So the order of bean loading is implicitly determined by dependencies and transitive dependencies. 6th for all, 7th for all.
+
+
+Server types:
+Blocking or syncronious servers. Usually prefork model. It creates a process or a thread for each connection. If there is a call to some long time operation like db access or a disc scan then the process will be blocked until it is finished. This thread can't be used to process another request.
+Non-blocking. If there will be a blocking operation then it will return current available state for client. And after some time client can try one more time.
+Asynchronious. Like nginx or node.js. There is a main worker which process requests. If there is a blocking operation then worker will place a callback for this function and continue operate other requests. When blocking operation is finished then a callback will be called and first request will be processed.
+Async multithreading. Many threads with async model
 
 
 Linux: 
@@ -61,7 +229,7 @@ U have some library that is a wrapper around some api? And it returns some weird
 
 Git:
 Typical flow? // git log, git branch, git branch --remote, git branch, git checkout, git merge
-How to make one commit from two? // rebase --interactive HEAD~2 pick   b76d157 b squash a931ac7 c
+How to make one commit from two? // rebase --interactive HEAD~2 pick   b76d157 b squash a931ac7 c git push -f origin master
 
 Debug:
 How do u debug?
