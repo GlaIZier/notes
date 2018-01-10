@@ -112,6 +112,7 @@ psvm() {
 // Strategy
 When method (Scanner constructor) accepts any interface (Readable):
 Ex. Scanner: Scanner(Readable r) {}
+filterApples(List<Apple>, ApplePredicate predicate): different predicates: Weight, Color
 
 // Factory
 Creates instance using some criteria like switch case or interface. 
