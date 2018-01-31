@@ -1,12 +1,18 @@
 Middle, Senior
 
-Java
+Java:
 Representation of information in computer? // 2
 What is the size of Integer in 32 bit and 64bit Java? // 4 bytes
 Max value of Integer? // 2^31 - 1? Why -1? How to get it in Java? // Integer.MAX_VALUE
 What will happen if we increment max int by one? // -2147483648
 What structure String is based on?
 What is complexity of String.substring() in Java? Java 6, 7? Why did they change the behavior?
+
+Java8:
+What is the type of lambda? How does Java understand the type of lambda? // context -> functional interface -> method check
+How do closures work in lambdas? // static, instance, effectively final vars. Lambda holds copies of outside local variables because they are stored on the stack and there can be problems with multithreading. Static and instance vars can be changed because they are in the heap/
+What's the difference between Stream and Collection? // streams are constructed on the demand (prime numbers sequence is infinitive and this is OK for streams). Collection is eagerly constructed. It needs to hold the whole data inside. Streams conusumable only once.
+
 
 Recursion:
 Tail is a recursion where the last operator is a call to another a recursed function or precedure
@@ -154,7 +160,17 @@ class IncrementorThread extends Thread {
 
 }
 
+Is int atomic in java?
+// All memory accesses in Java are atomic by default, with the exception of long and double (which may be atomic, but don't have to be). It's not put very clearly to be honest, but I believe that's the implication. Note that atomicity is very different to volatility though.
+When one thread updates an integer to 5, it's guaranteed that another thread won't see 1 or 4 or any other in-between state, but without any explicit volatility or locking, the other thread could see 0 forever.
+
+With regard to working hard to get atomic access to bytes, you're right: the VM may well have to try hard... but it does have to. From section 17.6 of the spec:
+
 What would happen if we place volatile on long or double?
+
+Architecture: 
+design a two-level cache with different strategies and stores
+<T> List<T> filter(List<T> list, Predicate<T> predicate) {...} - final solution. Start with filtering list of Apple
 
 Deadlock requirements:
 // 1. At least one resource has to be shared.
@@ -226,6 +242,7 @@ Async multithreading. Many threads with async model
 Linux: 
 You have a cluster. And it becomes to respond not every time or it takes so much time to respond. What would u do to understand what is the reasone of that? // ping, top, logs, ps to find logs, systemctl, iptables.
 U have some library that is a wrapper around some api? And it returns some weird error, or not what u expected. What would u do? With sources? Without sources? // tcpdump, Wireshark
+systemctl list-unit-files --type=service | grep Cogito | awk '{print $1}' | xargs systemctl <status/restart/stop/start>
 
 Git:
 Typical flow? // git log, git branch, git branch --remote, git branch, git checkout, git merge
@@ -246,6 +263,14 @@ Cover index?
 Cluster index and non one? // index connected to the data itself
 The most typic datastructure to store indexes? // b-tree
 B-tree? Hash index? Diff? When do we need to choose one or other?
+Why doesn't index work? // substring(3, 5) of string, wrong order of composite index, small table
+Isolation levels? // 
+Уровень изоляции	Фантомное чтение	Неповторяющееся чтение	«Грязное» чтение	Потерянное обновление[3]
+SERIALIZABLE	+	+	+	+
+REPEATABLE READ	-	+	+	+
+READ COMMITTED	-	-	+	+
+READ UNCOMMITTED	-	-	-	+
+NULL	-	-	-	-
 
 
 General
