@@ -60,9 +60,29 @@ One instance in application.
 //Facade
 Ex. SLF4j -> Logback, log4j
 
-//Callback, Observer
+//Callback
 libraryMethod(MyImplOfLIbraryInterface myImpl). MyImplOfLibraryOfInterface { @override libraryMethod() {my code here}}.
 Ex. JdbcTemplate
+
+// Observer
+class Notifier {
+	List<Observer> observers = new ArrayList<>();
+
+	registerObserver(Observer o) {observers.add(o);};
+	notifyObservers(){observers.forEach(Observer::notify)};
+}
+
+interface Observer {
+	void notify()
+}
+
+// If implementation is small enough lambda can be used
+class ConcreteObserver implements Observer {
+	public void notify() {
+		//some business logic on some action
+	}
+}
+
 
 //Context
 HashMap<Class<T>, singleton instance of T class>
@@ -109,11 +129,6 @@ psvm() {
 	}
 }
 
-// Strategy
-Injects an algorithm (interface) in a method.
-Ex. Scanner: Scanner(Readable r) {}
-filterApples(List<Apple>, ApplePredicate predicate): different predicates: Weight, Color
-
 // Factory
 Creates instance using some criteria like switch case or interface. 
 
@@ -135,7 +150,6 @@ main() {
 	playGame(new ChessFactory());
 }
 Also, we can include factory classes to Game implementations as static methods returned anonymous factory implementation.
-
 Lambdas and method references to constuctors can be used to create instances on the fly: map.get("className").apply(). map (String, Supplier<T>)
 
 Ex. Some SAP libraries for Java, BeanFactory in Spring
@@ -166,9 +180,14 @@ public class BGenerator<T> implements Generator<T> {
 }
 
 // Strategy
-Leave unchangable logic in the method and provide changable logic incapsulated in the class:
-
+Leave unchangable logic in the method and provide changable logic incapsulated in the class (u can use lambda instead of interface for short implementations):
 Ex: Arrays.sort(T[], <? super T> comparator)
+
+Injects an algorithm (interface) in a method.
+Ex. Scanner: Scanner(Readable r) {}
+filterApples(List<Apple>, ApplePredicate predicate): different predicates: Weight, Color
+
+
 
 // Decorator
 Is used to add functionality to the existing functionality:
@@ -185,3 +204,32 @@ DataInputStream holds a link to ByteArrayInputStream which holds a link to Buffe
 So DataInputStream adds some custom functionality (decorates) and call for next inputstream read method and so forth.
 
 Ex. Java IO
+
+// Template method
+There is the same logic around some business logic: we can provide business logic as lambda or an interface:
+public void processCustomer(int id, Consumer<Customer> makeCustomerHappy){ 
+	Customer c = Database.getCustomerWithId(id); makeCustomerHappy.accept(c); additional template logic;
+}
+
+// Chain of responsibility
+public abstract class ProcessingObject<T> {
+	protected ProcessingObject<T> successor;
+	public void setSuccessor(ProcessingObject<T> successor){ this.successor = successor;}
+	public T handle(T input){
+		T r = handleWork(input); 
+		if(successor != null){
+			return successor.handle(r); }
+		return r; }
+	abstract protected T handleWork(T input); 
+}
+
+new ConcreteProcessingObject1(new ConcreteProcessingObject2(...)).handle("some string for example");
+
+Also, here we can use functional programming instead of classes:
+
+UnanryOperator<String> concreteProcessing1 = (String s) -> {some logic1;}
+UnanryOperator<String> concreteProcessing2 = (String s) -> {some logic2;}
+Fucntion<String, String> pipeline = concreteProcessing1.andThen(concreteProcessing2);
+String result = pipeline.apply("some string for exaample");
+
+
