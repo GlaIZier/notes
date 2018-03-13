@@ -7,12 +7,13 @@ Ex to order threads
 
 
 private curId = 1;
+private final obj = new Object();
 
 public void run() {
 
 	syncronized(obj) {
 		if (curId > maxId) 
-			obj.wait(); // wait releases synchronized
+			obj.wait(); // wait releases synchronized!
 		// here will be only one thread. Others wait
 		curId++;
 		sout("i'm " + curId );
