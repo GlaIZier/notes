@@ -1,0 +1,53 @@
+Lambdas in Java can change instance variables
+Lambdas can't change local variables - they have to be effectively final. The reason of this is JDK behaviour. Also, they are stored in stack (not in heap like instance vars). Additionally, they encourage people to use functional style of programming. So, lambdas can be regarded as restricted "closures". What actually JDK does, is that it copies the values of local variables outside the scope of lambdas.
+private Supplier<Integer> buildSupplier() {
+        System.out.println("buildSupplier this = " + this); // outside class
+        int magic = 7;
+        class MyLocalInt {
+            public int myI;
+        }
+
+        new Supplier<Integer>() {
+            @Override
+            public Integer get() {
+                System.out.println("anonymous supplier this = " + this); // new instance of anonymous class OutsideClass$1...
+                return null;
+            }
+        }.get();
+//        magic++; can't do it either.
+        return () -> {
+            System.out.println("result lambda this " + this); // outside class
+            int i = magic + 1;
+            // not effective final. We can't modify local vars as they are in stack
+//            magic++;
+            // But ...
+            new MyInt().myI++;
+            new MyLocalInt().myI++;
+            return i;
+        };
+    }
+
+Keep in mind that anonymous classes, lambdas and method references are not the same. They are compiled in different byte codes. More info: https://stackoverflow.com/questions/30514995/what-is-the-difference-between-a-lambda-and-a-method-reference-at-a-runtime-leve 
+The difference between lambdas and method references is that JDK captures values of local variable used in method reference when it encounts with the method reference not when it is executed. More info:
+https://stackoverflow.com/questions/27747781/java-8-method-references-called-on-a-local-variable
+So it's possible to change local variable used in method reference and changes won't be visible after method refernce declaration:
+public class Suppliers {
+    private String s;
+
+    public Map.Entry<String, String> say() {
+        s = "joker";
+        String localS ="g";
+        localS = "ggg";
+        Supplier<String> s1 = s::toUpperCase;
+        Supplier<String> s2 = () -> s.toUpperCase();
+        Supplier<String> s3 = localS::toUpperCase;
+        // won't compile. Effectively final variables
+//        Supplier<String> s4 = () -> localS.toUpperCase();
+        s = "jokerAfter";
+        localS = "gg";
+        return new AbstractMap.SimpleImmutableEntry<>(s1.get(), s2.get());
+    }
+}
+
+
+Comparing lambdas and anonymous classes, it is worth mentioning that compiler does create the new class for every new absract class: OuterClass$1... and doesn't for lambdas (somehow invokedynamic statement is used in the byte code). Also, this references are different for them: first one points out on created instance, the second - the outer class
