@@ -1,0 +1,9 @@
+When Spring boot works there is no context yet. Spring context initialization (factorybean, beanpostprocessor...) works after spring boot.
+
+Spring boot is responsible for: dependencies, configs and deployment and startup.
+
+Dependencies: use spring boot parent, which includes parent with dependencies and versions in dependencyManagement block in pom to point out the exact version. But in this case we can't use our own parent pom. To be able to do it we can use bom with dependencies. The same for gradle.
+
+The start of Spring application is the context creation (web.xml -> listeners ...).
+In Spring Boot context is created like this: ApplicationContext = context = SpringApplication.run(App.class, args); Instead of App.class we can use context.xml, script.groove or some others.
+SpringApplication creates context

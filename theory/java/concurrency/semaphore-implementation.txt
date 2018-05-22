@@ -1,0 +1,3 @@
+Semaphore has two impelementations: fair and unfair. Unfair doesn't check thread queue before trying to acquire a lock. 
+
+Semaphore uses abstract queue with int state (remain locks) to handle the node (threads') queue (one-way linked list) and compareandset algorithms for concurrent modifications.
