@@ -9,12 +9,19 @@ In Spring Boot context is created like this: ApplicationContext = context = Spri
 
 SpringApplication creates context (it knows the exact type of context it needs to create: ClasspathXmlApplicationContext, Annotation...). Also, it deduce which context it needs to create WebContext (if there is servlet.class ... in classpath) or GenericContext (desktop app). After the context is created it contains lots of infrastructal beans: datasource... and many others that came from starters. 
 
+// How all dependency beans are constructed
 To be able to add some our custom infrastructure we need to create some our configuration with beans and either: create @EnableOurConfig which will do @Import(MyConfig.class), 
 either:
 we will create at the same place with logic of configuration in resources/META-INF/spring.factories: starter: value1, value2 (EnableAutoConfiguration=com.our.MyConfig). SpringBoot will use our spring.factories then. @SpingBootApplication includes @ComponentScan, @Configuration, @EnableAutoConfiguration
 
+// How all dependency beans are scanned
 @EnableAutoConfiguration: annotated with @Import({EnableAutoConfigurationImportSelector.class}). After SpringBoot release it becomes possible to @Import selectors and registrars (in runtime will add some beanDefinitions), not only configurations. 
 
 EnableAutoConfigurationImportSelector: scans all spring.factories with "EnableAutoConfiguration="  and, hence, configurations and, hence, beans (dataSource...). This selector uses SpringFactoriesLoader to find all spring facrories by using: static List<String> loadFactoryNames(Class<?> factoryClass, ClassLoader classLoader). factoryclass.getName will be used for search in spring.factoies (eg factoryclass.getName = EnableAutoConfiguration). Starters use this mechanism. 
 
 Also, spring-boot-autoconfigure.jar has its own spring.factories that includes a very long sequence of configurations: AopAutoConfiguration, RabbitAutoConfiguration... Additionally, CacheAutoConfiguration includes hard-coded mappings with classes by importing @Import(CacheConfigurationImportSelector.class) which scans special static file CacheConfiguration with many different configurations. This was done for users' convenience. If it wasn't like that, you would need to download not only the dependency from maven, but also the starter for this particular version of dependency. In the hard-coded way you just need to download the dependency. A starter is merged into Spring Boot itself.
+
+// How all useless beans are filtered
+But all these beans are not present in context if they are not needed: @ConditionalOnClass(LocalContainerEntityManagerFactoryBean.class) @ConditionalOnBean(AbstractEntityManagerFactoryBean.class) and other conditionals are used. If we need to add some custom filtration annotation we can create custom class with filtration logic and custom annotation. Conditions are checked several times during context initialization. If u need them cached, do it yourself.
+
+To be able to use autocomplete in application.yml, we can use special annotation processor for maven or gradle and special class which will create special json file during compile process
