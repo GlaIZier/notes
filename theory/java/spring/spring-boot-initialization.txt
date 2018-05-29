@@ -1,4 +1,4 @@
-When Spring boot works there is no context yet. Spring context initialization (factorybean, beanpostprocessor...) works after spring boot.
+When Spring boot works there is no Spring context yet. Spring context initialization (factorybean, beanpostprocessor...) works after spring boot context initialization.
 
 Spring boot is responsible for: dependencies, configs and deployment and startup.
 
@@ -14,14 +14,51 @@ To be able to add some our custom infrastructure we need to create some our conf
 either:
 we will create at the same place with logic of configuration in resources/META-INF/spring.factories: starter: value1, value2 (EnableAutoConfiguration=com.our.MyConfig). SpringBoot will use our spring.factories then. @SpingBootApplication includes @ComponentScan, @Configuration, @EnableAutoConfiguration
 
+// spring.factories 
+is the place where we need to declare all our custom classes to be called by spring boot during context initialization when Spring context is not ready (before main Spring context initialization flow).
+
 // How all dependency beans are scanned
 @EnableAutoConfiguration: annotated with @Import({EnableAutoConfigurationImportSelector.class}). After SpringBoot release it becomes possible to @Import selectors and registrars (in runtime will add some beanDefinitions), not only configurations. 
 
+// ImportSelector
 EnableAutoConfigurationImportSelector: scans all spring.factories with "EnableAutoConfiguration="  and, hence, configurations and, hence, beans (dataSource...). This selector uses SpringFactoriesLoader to find all spring facrories by using: static List<String> loadFactoryNames(Class<?> factoryClass, ClassLoader classLoader). factoryclass.getName will be used for search in spring.factoies (eg factoryclass.getName = EnableAutoConfiguration). Starters use this mechanism. 
+
+// SpringFactoriesLoader
+Class that is used to load smth from spring.factories
 
 Also, spring-boot-autoconfigure.jar has its own spring.factories that includes a very long sequence of configurations: AopAutoConfiguration, RabbitAutoConfiguration... Additionally, CacheAutoConfiguration includes hard-coded mappings with classes by importing @Import(CacheConfigurationImportSelector.class) which scans special static file CacheConfiguration with many different configurations. This was done for users' convenience. If it wasn't like that, you would need to download not only the dependency from maven, but also the starter for this particular version of dependency. In the hard-coded way you just need to download the dependency. A starter is merged into Spring Boot itself.
 
 // How all useless beans are filtered
 But all these beans are not present in context if they are not needed: @ConditionalOnClass(LocalContainerEntityManagerFactoryBean.class) @ConditionalOnBean(AbstractEntityManagerFactoryBean.class) and other conditionals are used. If we need to add some custom filtration annotation we can create custom class with filtration logic and custom annotation. Conditions are checked several times during context initialization. If u need them cached, do it yourself.
 
-To be able to use autocomplete in application.yml, we can use special annotation processor for maven or gradle and special class which will create special json file during compile process
+To be able to use autocomplete in application.yml, we can use special annotation processor for maven or gradle and special class annotated with @ConfigurationProperties(prefix = "fff"), which will create special json file during compile process.
+
+// How to disable bean creation
+If we want to disable automatic bean creation, we can use @ConditionalOnMissingBean. Beware, that it uses id of a bean (method name with @Bean) by default to check presented beans. To be able to override such beans we can specify the exact class
+
+// How spring works even if there are no classes in the classpath that are used in @Conditional and other places
+Spring uses ASM (bytecode modification library) to parse annotations and check availability of classes to avoid ClassDefNotFound
+
+// How to put several @ConditionalOnPropery
+We can create out own class that extends AllNestedConditions or AnyNestedConditions and our own annotation for it.
+
+// ApplicationContextInitializer
+Context is created but there are no even bean definitions. The only thing, that has been already created, is the Environment. So, this is a point where we can check environment's params. To be able to add this initializer to the project, spring.factories are needed to be used. ...context.ApplicationContextInitializer=OurClass
+
+// Environment
+systemProperties, system environment application.properties, active.profiles, default properties, 
+is built by SpringApplication
+
+// EnvironmentPostProcessor
+Again, if we wrote our custom EPP, we need to declare it spring.factories. This is a place where we can adjust the Environment.
+
+// ConfigFileApplicationListener
+This is an EnvironmentPostProcessor which starts all EPP and listens to some specific events. It is started by SpringApplication. Uses SpringFactoriesLoader to load all EPP: SpringFactoriesLoader.loadFactories(EnvironmentPostProcessor.class, getClass().getClassLoader()); then sorts it and launches all of them, including itself
+
+// Events 
+Spring boot adds some special Application events to the Spring's context initialization flow. 
+Spring's main flow events ContextStartedEvent and ContextStoppedEvent work only when u call them explicitly: ctx.start(). ctx.stop()
+
+// Overall context initialization flow
+
+~ spring boot initialization~ SpringApplication (Application StartingEvent) -> ConfigFileApplicationListener, EPPs (Application EnvironmentPreparedEvent) -> ApplicationContextInitializer (Application PreparedEvent) -> (Context RefreshedEvent) ~ spring initialization ~ -> (EmbeddedServlet Container InitializedEvent) -> (Application ReadyEvent)
