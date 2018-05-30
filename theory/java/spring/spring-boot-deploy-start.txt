@@ -1,0 +1,20 @@
+// How to deploy
+
+Before spring boot was introduced, we used ear and application servers and war with web servers to deploy because jar file contains only project's classes. War contains libs (u can do it in Maven by just pointing out packaging: war)
+
+Spring Boot is able to create executable jars with assistance of spring-boot-maven-plugin. 
+
+// Internal structure of an uber-jar 
+META-INF
+BOOT-INF
+ - libs
+ - classes
+org
+ - springframework
+  - boot (Spring Boot add some additional files here)
+
+MANIFEST.MF -> MainClass: JarLauncher/WarLauncher, StartClass: OurMainClass. JarLauncher/WarLauncher creates class path by extracting some libs and doing some other things...
+There can be problems with embedded-tomcat and deployment to external tomcat. Embedded dependencies are stored separately to avoid dependecies' conflicts. Also, libs with the same names can override each other in the same jar. So, use unique names within artifact id.
+
+// Spring Boot jar inside
+Its' possible to point out the main class and make it executable to be able to launch it with double-click. It was made possible by providing script before the actual zip archive 

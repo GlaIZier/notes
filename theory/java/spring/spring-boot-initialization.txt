@@ -62,3 +62,8 @@ Spring's main flow events ContextStartedEvent and ContextStoppedEvent work only 
 // Overall context initialization flow
 
 ~ spring boot initialization~ SpringApplication (Application StartingEvent) -> ConfigFileApplicationListener, EPPs (Application EnvironmentPreparedEvent) -> ApplicationContextInitializer (Application PreparedEvent) -> (Context RefreshedEvent) ~ spring initialization ~ -> (EmbeddedServlet Container InitializedEvent) -> (Application ReadyEvent)
+
+// How to use this information in a real world
+Custom EPP and BPP are useful when u need a breakpoint to stop at them to see what went wrong during context initialization process
+-- debug 
+actuator /env -> to understand where these properties came from
