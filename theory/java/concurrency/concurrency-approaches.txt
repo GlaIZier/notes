@@ -1,0 +1,47 @@
+// Rough blocking. 
+Block everything by allowing access for one thread only.  Sequential program and access. One lock for everything. Easy and reliable.
+
+// Flexible blocking:
+A separate lock for each piece of information. Easy to get a deadlock - need to acquire the lock in specified order. Performance is far better than with rough blocking, and, in the same time, implementation is quite easy. Performance usually comparative to CAS-algorithms.
+
+// CAS algorithms
+non-blocking algorithm: uses compare and set processor instruction: compareAndSet(reg, expected, updated) = atomic {
+	if (reg == expected) {
+		reg = updated;
+		return true;
+	} else {
+	    return false;
+	}
+}. For instance, we can use new piece of information for each modification:
+accounts = AtomicReferenceArray(n, {Account()})
+// CAS loop
+while (true) {
+	val account = accounts[id];
+	val updated = Account(account.amount + amount)
+	if (accounts.compareAndSet(id, account, updated))
+		return;
+}
+In this case we don't need to sync reading. Just read the current value and that's all.
+
+But how can we change two accounts atomic? Descriptors can help: Harris et al. "A practical multi-word compare-and-swap operation":
+Create operation's descriptor (transfer)
+Substitute descriptors instead of accounts
+Do the operation 
+Change descriptors back by values. But it leads to very complicated and convoluted code. 
+Performance is a little bit better than with flexible blocking.
+The biggest advantage of CAS algorithms is that the progress is always happening in such systems! We simply don't block anything.
+
+Flexible blocking is a good algorithm!
+
+
+// Transactional memory
+Another approach: transactional memory (software, hardware, hybrid)
+Software implementations is rather lax (there are some libraries for Java)
+
+Hardware implementation is available for Intel processors. The approach is similar to transactions in db. 
+XBEGIN &abort-label - start transaction with pointing at label in case of rollback
+XEND - finish transaction
+XABORT - rollback transaction. The reason of abortion will be stored in EAX register
+XTEST - check whether we are inside any transaction or not.
+This approach doesn't guarantee progress in the system. Also, this hardware implementation can be not available щт some environments (machines). So, it's better to try several times to do some critical code within transaction and then try some other way using lock, for instance. 
+Java implementation: lock elision
