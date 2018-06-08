@@ -44,4 +44,28 @@ XEND - finish transaction
 XABORT - rollback transaction. The reason of abortion will be stored in EAX register
 XTEST - check whether we are inside any transaction or not.
 This approach doesn't guarantee progress in the system. Also, this hardware implementation can be not available щт some environments (machines). So, it's better to try several times to do some critical code within transaction and then try some other way using lock, for instance. 
-Java implementation: lock elision
+
+Java implementation of hardware transactional memory: lock elision:
+
+state = AtomicInteger(0);
+
+fun lock() {
+	if (xbegin() == XBEGIN_STARTED) {
+		if (state.get() == 0) //  check that nobody holds the lock. Otherwise we could see some intermediate inconsistent state during the transaction.
+			return;
+		else 
+			xabort()
+	}
+}
+
+fun unlock() {
+	if (state.get() == 0) { // check again before finishing the transaction that we are not in the inconsistent state. Otherwise, we will go to xbegin with the reason of abortion and we will use the second method: simple locking
+		xend() 
+		return
+	}
+}
+
+Java's lock elision since 8u40 for syncrinized. To enable: -XX: +UseRTMLicking. It's also possible to enable deoptomization.
+Lock elision works worse comparing to simple syncronized when only one thread is used. Also, it can work worse when the data is not big enough. 
+Another disadvantage is that lock elision can be enabled only globally.
+

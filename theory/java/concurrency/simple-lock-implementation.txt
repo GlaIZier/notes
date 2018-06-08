@@ -1,0 +1,13 @@
+state = AtomicInteger(0);
+
+fun lock() {
+	while (true) {
+		if (state.compareAndSet(0, 1))
+			break;
+		// wait and retry
+	}
+}
+
+fun unlock() {
+	state.set(0);
+}
