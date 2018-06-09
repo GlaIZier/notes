@@ -37,6 +37,7 @@ Flexible blocking is a good algorithm!
 // Transactional memory
 Another approach: transactional memory (software, hardware, hybrid)
 Software implementations is rather lax (there are some libraries for Java)
+Hybrid Transactional memory. This is the most perspective one
 
 Hardware implementation is available for Intel processors. The approach is similar to transactions in db. 
 XBEGIN &abort-label - start transaction with pointing at label in case of rollback
@@ -66,6 +67,9 @@ fun unlock() {
 }
 
 Java's lock elision since 8u40 for syncrinized. To enable: -XX: +UseRTMLicking. It's also possible to enable deoptomization.
-Lock elision works worse comparing to simple syncronized when only one thread is used. Also, it can work worse when the data is not big enough. 
+Lock elision works worse comparing to simple syncronized when only one thread is used (JVM optimizes the cost of syncronized for the only thread).
+Lock elision with rough blocking works faster than flexible with lock elistion when the data is big enough (data contention is low). This is because the implementation of rough blocking is much simplier and less resource-consuming.
+Otherwise, flexible blocking works much faster when the data contention is high (the data is not big enough). This is the case because we often degrade to the simple rough blocking. (Frequent global transactions' abortions)
 Another disadvantage is that lock elision can be enabled only globally.
 
+Java implementation of hardware transactional memory: RTM premitives: write your own implementation with intrinsics (c++/assembler code for HotSpot JVM). If u do this u will be able to write your own more flexible implementation of lock-elision or something else.
