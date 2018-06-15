@@ -1,0 +1,37 @@
+Coroutines
+
+// Are used to implement async code. Async code in Java can be implemented by using callbacks. But... This approach leads to 'callback hell' code with lots of nested structures (Kotlin):
+
+sync code:
+val tiken = requestToken()
+val post = createPost(token, item)
+processPost(post) 
+
+->
+
+requestTokenAsync { token -> 
+ createPostAsync(token, item) -> { post ->
+ 	processPost(post);
+ }
+}
+
+// To avoid this callback hell, promises/defers/futures are used:
+
+fun requestTokenAsync(): Promise<Token>
+requestTokenAsync()
+.thenCompose{ token -> createPostAsync(token, item)}
+.thenAccept { post -> processPost(post)}
+
+The main disadvantage: all these methods (thenCompose(), thenAccept()...)
+
+// To avoid such methods, coroutines are used in Kotlin:
+
+suspend fun requestToken(): Token {}
+
+suspend fun postItem(item: Item) {
+	val token = requestToken()
+	val post = createPost(token, item)
+	processPost(post)
+}
+
+This looks like a sync code
