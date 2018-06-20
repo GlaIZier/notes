@@ -34,4 +34,71 @@ suspend fun postItem(item: Item) {
 	processPost(post)
 }
 
-This looks like a sync code
+This looks like a sync code and regular operators can be used: loops, catch
+
+In JVM a suspend function transforms to a function with a callback interface (Continuation):
+
+switch (cont.label) {
+	case 0:
+		cont.label = 1;
+		requestToken(cont);
+		break;
+	case 1: 
+		Token token = (Token) prevResult;
+		cont.label = 2;
+		createPost(token, item, cont);
+		break;
+	case 2:
+		Post post = (Post) prevResult;
+		processPost(post);
+		break;
+}
+
+Coroutines allow main threads to do something else and no to wait for a response from a slow service. For waiting, some background thread pool is used.
+
+// this async (launch) block will be executed in the UI thread
+launch(UI) {
+	val token = requestToken();
+	val post = createPost(token, item)
+	processPost(post)
+}
+
+// C# async/await
+returns Task (Future)
+async func() {
+	await requestToken();
+}
+requestToken() by default enables concurrency: this will return Task and current thread will continue execution.
+async requestToken() current thread will be waiting for the request to be done.
+
+In Kotlin sequential behaviour is the default one. 
+To enable concurrency in Kotlin execute: async {requestToken()}
+
+// What is a coroutine?
+It is something like a lightweight thread (it weighs ~100bytes). Hence, it is possible to create even 100000 coroutines...
+
+
+// How to use coroutines from Java code:
+fun loadAndCombineAsync(name1: String, name2: String): CompletableFuture<Image> = 
+future {
+	val future1 = loadImageAsync(name1) // this function returns CompletableFuture
+	val future1 = loadImageAsync(name1)
+	combineImages(future1.await(), future2.await())
+}
+
+// How coroutines work internally 
+Coroutine is a state machine that holds the state in the stack:
+val fibonacci = buildSequence {
+	var cur = 1
+	var next = 1
+	while (true) {
+		yield(cur) // here it will be frozen util next() is called. This won't require any background activity to hold this state as the state machine will be stored in the stack 
+		val tmp = cur + next
+		cur = next
+		next = tmp
+	}
+}
+
+val iter = fibonacci.iterator()
+iter.next() // yeild will return cur and the state machine will be frozen until the next yield and so forth. 
+// Todo make a note with differences between JS and Java async models
