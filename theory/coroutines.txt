@@ -54,7 +54,7 @@ switch (cont.label) {
 		break;
 }
 
-Coroutines allow main threads to do something else and no to wait for a response from a slow service. For waiting, some background thread pool is used.
+! Coroutines allow main threads to do something else and no to wait for a response from a slow service. For waiting, some background thread pool is used.
 
 // this async (launch) block will be executed in the UI thread
 launch(UI) {
@@ -75,8 +75,8 @@ In Kotlin sequential behaviour is the default one.
 To enable concurrency in Kotlin execute: async {requestToken()}
 
 // What is a coroutine?
-It is something like a lightweight thread (it weighs ~100bytes). Hence, it is possible to create even 100000 coroutines...
-
+It is something like a lightweight thread (it weighs ~100bytes). Hence, it is possible to create even 100000 coroutines, whereas 100000 threads are impossible to hold...  Anyway, deep inside there are several threads that hold your all your coroutines. 
+So, this is an abstraction above a thread: for each client one coroutine can be created. So, if we have lots of clients it will be still possible to create one coroutine for each. Meanwhile, it's impossible to create so many threads. But internally, one thread will hold many coroutines (ExecutorService, ForkJoinPool or smth else can be used. By default, internal Java ForkJoinPool is used). There is no magic... In conclusion, coroutines are useful when many async blocking operations are processed (like db or network) to replace threads that currently are used in Java by CompletableFuture
 
 // How to use coroutines from Java code:
 fun loadAndCombineAsync(name1: String, name2: String): CompletableFuture<Image> = 
@@ -101,4 +101,24 @@ val fibonacci = buildSequence {
 
 val iter = fibonacci.iterator()
 iter.next() // yeild will return cur and the state machine will be frozen until the next yield and so forth. 
+
+// Coroutines as a tool to send and receive messages
+val fibonacci = produce { // create light-weight coroutine to send messages
+	var cur = 1
+	var next = 1
+	while (true) {
+		send(cur) // send msg and freeze
+		val tmp = cur + next
+		cur = next
+		next = tmp
+	}
+}
+
+somewhere in another block: 
+runBlocking {
+	println(fibonacci.receive()) // 1 . receive first message
+}
+
+Also, it's possible to use it as Channels and Actors, selection and sync, job hierarchies and cancellation
+
 // Todo make a note with differences between JS and Java async models
