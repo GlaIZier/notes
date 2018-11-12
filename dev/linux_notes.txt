@@ -382,14 +382,12 @@ make -j<number of threads> // make in several threads
 make install
 make distclean // clean all maked
 
-//Daemons
-ppid = 1
-//enter not from tty
-//output to some file
-nohup // make service from program
-System initializations:
-SysV: scripts in init.d, // levels of run 0, 1s, 23,... ; Do something from :  /etc/rcN.d, /etc/init.d, /etc/rc.local when daemon goes from level to level. Script in init.d must include 4 functions start, stop, restart, status. Usually soft has it's own init script inside package
-upstart, 
+//Daemons ppid = 1 //enter not from tty //output to some file nohup // make
+service from program  nohup ./script & to run it as daemon System
+initializations: SysV: scripts in init.d, // levels of run 0, 1s, 23,... ; Do
+something from :  /etc/rcN.d, /etc/init.d, /etc/rc.local when daemon goes from
+level to level. Script in init.d must include 4 functions start, stop,
+restart, status. Usually soft has it's own init script inside package upstart,
 systemd //dependencies, parallel start
 
 telinit // change current run level

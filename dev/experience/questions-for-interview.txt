@@ -7,11 +7,13 @@ Max value of Integer? // 2^31 - 1? Why -1? How to get it in Java? // Integer.MAX
 What will happen if we increment max int by one? // -2147483648
 What structure String is based on?
 What is complexity of String.substring() in Java? Java 6, 7? Why did they change the behavior?
+What is the design of HashMap? What if hashCode() and equals() depend on a state and the state is mutable? 
 
 Java8:
 What is the type of lambda? How does Java understand the type of lambda? // context -> functional interface -> method check
 How do closures work in lambdas? // static, instance, effectively final vars. Lambda holds copies of outside local variables because they are stored on the stack and there can be problems with multithreading. Static and instance vars can be changed because they are in the heap/
 What's the difference between Stream and Collection? // streams are constructed on the demand (prime numbers sequence is infinitive and this is OK for streams). Collection is eagerly constructed. It needs to hold the whole data inside. Streams conusumable only once.
+How to avoid null checks and if checks in java? // Optional, map, filter, flatMap. map vs flatMap?
 
 
 Recursion:
@@ -53,7 +55,7 @@ In simple words high level abstraction (business logic) has to depend on low lev
 Ex. In one class (method) we create another object of some class. -> create interface (abstraction) of created object and we can provide this realization of interface to the method or use container's dependency injection  
 Another way to use this principe is to use container's dependency injection, service locator antipattern or plugin
 
-// Generics
+Generics:
 
 // Covariance and contrvariance?
 Arrays are covariant in Java: [Fruit] <- [Apple] <- [Jonathan]:
@@ -125,6 +127,7 @@ How to create an array of generics? // new Object[] and casting but then while r
 }
 
 Multithreading:
+What is the design of ConcurrentHashMap? 
 Atomic implementation:
 Usage of atomic hardware function (implemented in dif environments different) compareAndSwap that compares two values (memory cells: valueOffset and expect) and if true swap with update value. Function returns true if there was swap.
 Java code:
@@ -138,6 +141,10 @@ while (true) {
 compareAndSet(...) {
 	return unsafe.compareAndSwap(this, valueOffset, cur, next);
 }
+
+what class is used for compareAndSwap? // Unsafe
+How to manage memory manually in Java or not to declare throwable Exception or not to initialize class with provided variables? // Unsafe
+
 CopyOnWriteArrayList - copy full array on write to avoid concurrency modification exception
 
 Multithread singleton implementation:
@@ -163,12 +170,32 @@ class IncrementorThread extends Thread {
 Is int atomic in java?
 // All memory accesses in Java are atomic by default, with the exception of long and double (which may be atomic, but don't have to be). It's not put very clearly to be honest, but I believe that's the implication. Note that atomicity is very different to volatility though.
 When one thread updates an integer to 5, it's guaranteed that another thread won't see 1 or 4 or any other in-between state, but without any explicit volatility or locking, the other thread could see 0 forever.
-
 With regard to working hard to get atomic access to bytes, you're right: the VM may well have to try hard... but it does have to. From section 17.6 of the spec:
 
 What would happen if we place volatile on long or double?
 
+What 2 problems does the synchronization solve? // visibility and shared access. 
+What problem volatile may solve? // visibility
+Design servlet with caching of factorization (long operation): sync -> conchashmap -> conchashmap with future.
+Do we need volatile for atomic? // no
+Happens-before relationship? // final, synchronized, volatile
+How to make ArrayList concurrent-safe? // Collections.syncronizedList()
+What is BlockingQueue? What is the best usage of it? How the blocking method put() can be interrupted* (interrupt the current thread)? // BlockingQueue - blocks in the lack of elements and when a queue is full, producer-consumer pattern
+Design a progmam which can be split into many parallel threads. How many threads would u use? // ExecutorService. Depends on operations: blocking or non-blocking
+What is a functional (persistent) data structure? // immutable data structure which always return a new ds on change every time with effective usage of previous state
+How does the interruption work? // thread has a flag that should be checked manually to be able to interrupt 
+Put
+
+How does the threadpool work? // many threads with 
+What will happen if we don't shutdown threadpool? // application won't stop as thereads are not daemons
+Deadlock? // lock ordering
+Other locks? // resource starvation when singleexecutor calls submit() inside a theread and is waiting for its result; livelock when transaction is always unsuccessful
+Why final is crucial? // during construction in one thread, others can see fields in inconsistent state
+Difference between synchronize and locks? // syncronized is intrinsic (more information about it in thread dumps)
+
+
 Architecture: 
+3 main traits in programming: good abstractions, wise state processing and semantic naming. Discuss. 
 design a two-level cache with different strategies and stores
 <T> List<T> filter(List<T> list, Predicate<T> predicate) {...} - final solution. Start with filtering list of Apple
 
