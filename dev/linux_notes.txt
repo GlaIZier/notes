@@ -175,6 +175,8 @@ tcpdump -i lo tcp port 80 // capture localhost
 tcpdump -i eth0 tcp port 443 and host vk.com
 tcpdump -s0 -w lo.pcap -i lo // dump into the lo.pcap file s0 = buffersize 65K?
 tcpdump -s0 -w eth0-1.pcap -i eth0 'tcp port 80' // only tcp port 80
+tcpdump -ni eth0 -s0 -w tcp.pcap
+
 ping //
 traceroute // route to host
 mtr // the same as traceroute
