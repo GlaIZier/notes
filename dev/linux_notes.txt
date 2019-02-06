@@ -1,6 +1,7 @@
 There is profile for production servers that consists scripts with aliases and setting needed for git, tmux, terminal... Need to copy public key to ssh by using ssh-copy-id <remote-host>
 
-ls -l // show files with rights
+ls -lah // show files with rights
+tree -L 2 ~/.local // show directories' tree
 
 grep -R --color "database" /opt/tomcat/
 grep 2160407 --color -r  ./payment* // grep in all payment logs
@@ -60,7 +61,6 @@ tail -f catalina.out // show in runtime document tail of doc
 tail -1000 catalina.out // show 1000 last lines of the file
 head -1 daily_autocommit_script.sh | od -c // check first line all symbols
 
-la -h show size of a file?
 
 ssh-copy-id 172.31.0.151
 ssh 172.31.0.33 "tar x" < ~/profiles/smile-profile-prod.tar 
@@ -221,9 +221,10 @@ tail -f /var/log/kern.log // kernel log
 lsmod // show the status of module in linux kernel
 lsb_release -cs // show version name of ubuntu
 
-// hard drive
+// hard drive (disk)
 df -h // show space for partitions
 df -i // show free file descriptors
+du -ach // show disk space used by files
 stat <filename> // show info about file
 hdparm // get-set hard disk params
 swapoff/swapon -U 4c0b300f-1e77-4f3c-acd3-e79777a47e7b //swap off using uid
