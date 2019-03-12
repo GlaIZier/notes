@@ -414,3 +414,9 @@ echo $? // show return code of last command
 while :; do curl -v http://google.ru ; sleep 1 ; done // curl to google every 1 sec
 
 // When smth weird or wrong is happening try to downgrade kernel. Use grub to start with different kernel to check if it's true.
+
+To install proxy on linux (sdk doesn't work without it)
+export {http,https}_proxy="http://52.169.239.104:21789"
+
+To unistall
+unset {http,https}_proxy

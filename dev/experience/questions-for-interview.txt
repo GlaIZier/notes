@@ -275,11 +275,13 @@ Git:
 Typical flow? // git log, git branch, git branch --remote, git branch, git checkout, git merge
 How to make one commit from two? // rebase --interactive HEAD~2 pick   b76d157 b squash a931ac7 c git push -f origin master
 
-Debug:
+Programming processes and practices:
+How do you tests?
+Which tests do you write?
+How you launch them?
+How do u deploy in your company?
 How do u debug?
 
-Deploy:
-How do u deploy in your company?
 
 DB:
 What are indexes?
@@ -300,38 +302,44 @@ READ UNCOMMITTED	-	-	-	+
 NULL	-	-	-	-
 
 
-General
+JS
+What is a closure, and how/why would you use one? // Each function has Lexical Environment where it stores all variables, functions and a link to the external function = [[Scope]]. So, we can see all external variables using [[Scope]]. Closure - a function with all external accessible variables. If u create a function using new than it will have [[Scope]] = window, so it can't use closures
+What are the differences between variables created using let, var or const? // When resolving a variable, javascript starts at the innermost scope and searches outwards. Unlike var , let and const are block scoped. Another difference that let and const have when compared to var is the fact that while var gives a undefined error when accessed before declaring, let and const give a ReferenceError if they are accessed before declaration.
+this in different contexts:
+As method:
+obj.func(...) // this = obj
+obj["func"](...)
+Ordinary call:
+func(...) // this = window (ES3) /undefined (ES5)
+During the construction this = undefined too
+new:
+new func() // this = {} (новый объект)
+Explicit :
+func.apply(context, args) // this = context
+func.call(context, arg1, arg2, ...)
 
+
+
+General
+- Why do u program on ...?
 - Why did u retire from other job?
 - What  do motivates people to work?
 - Why do people retire from last jobs?
+- What books/articles did u read?
+- Good code and bad code? Why is it bad?
+- What problems did u solve and how?
+- What is a good architecture?
 
 Http, protocols?
-- Different
+- How many levels are there for TCP/IP? // app (http)-> transport (tcp/udp) -> network(ip/ipv6) -> physical
 - What is protocol in general?
 - POST/GET diff?
 
-- Why do u program on ...?
-- What books/articles did u read?
-- Good code and bad code? What is it bad?
-- How do u debug?
-- What is architecture?
-- What problems did u solve and how?
+
+
 Tasks:
 - Angle between two arrows in clock? O()?
 - Check if a string is valid? )((()())()))(())))))))) O?
 - Check if a number is a 2^x? O?
 - Invert a string? O?
 - Add numbers as string without casting???? O?
-
-Sql:
-- What are indeces?
-- How do indeces work?
-- Cluster index and non one?
-- B-tree? Hash index? Diff? When do we need to choose one or other?
-
-- What patterns do u know and use?
-- https://habrahabr.ru/post/265061/
-- Java Deriviation, Interfaces
-- Java Generics, ?
-- Java Collections
