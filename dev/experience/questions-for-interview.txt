@@ -186,7 +186,12 @@ What is a functional (persistent) data structure? // immutable data structure wh
 How does the interruption work? // thread has a flag that should be checked manually to be able to interrupt 
 Put
 
-How does the threadpool work? // many threads with 
+How does the threadpool work? // many threads with a queue:
+General impression only :)
+while (!pool.isShutdown()) {
+    Runnable task = pool.waitForTaskOnQueue();
+    task.run();
+}
 What will happen if we don't shutdown threadpool? // application won't stop as thereads are not daemons
 Deadlock? // lock ordering
 Other locks? // resource starvation when singleexecutor calls submit() inside a theread and is waiting for its result; livelock when transaction is always unsuccessful
