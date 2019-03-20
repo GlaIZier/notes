@@ -1,0 +1,2 @@
+@Autowired annotation is processed by AutowiredAnnotationBeanPostProcessor.
+It is exeuted before init method. Spring doesn't need proxies to achieve it. It scans all fields that are needed to be injected, then checks candidates using class names and then injects them using reflection.
