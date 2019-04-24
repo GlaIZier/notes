@@ -22,3 +22,16 @@ git rebase -i HEAD~2
 // check that ur user group does not override rights
 
 git rm --cached -r <dir> // remove dir from tracked file
+
+// change a commit's author:
+git commit --amend --author="GlaIZier <kh.mv@bk.ru>"
+
+// change an athor of several commit
+git rebase -i HEAD~2
+e
+e
+git commit --amend --author="GlaIZier <kh.mv@bk.ru>"
+git rebase --continue
+git commit --amend --author="GlaIZier <kh.mv@bk.ru>"
+git rebase --continue
+git push -f
