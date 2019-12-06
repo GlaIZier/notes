@@ -226,6 +226,7 @@ lsb_release -cs // show version name of ubuntu
 df -h // show space for partitions
 df -i // show free file descriptors
 du -ach // show disk space used by files
+du -sh <folder> // check the size of a folder
 stat <filename> // show info about file
 hdparm // get-set hard disk params
 swapoff/swapon -U 4c0b300f-1e77-4f3c-acd3-e79777a47e7b //swap off using uid
