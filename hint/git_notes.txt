@@ -35,3 +35,22 @@ git rebase --continue
 git commit --amend --author="GlaIZier <kh.mv@bk.ru>"
 git rebase --continue
 git push -f
+
+
+// config for two users
+# github GlaIZier
+host github.com
+ HostName github.com
+ IdentityFile /Users/glaizier/.ssh/github_rsa
+ User git
+
+# github q0oz
+Host q0oz.github.com    
+   HostName github.com
+   IdentityFile /Users/glaizier/.ssh/git_rsa
+   User git
+   UseKeychain yes
+   
+
+git clone git@q0oz.github.com:wiley/repo.git // for the first
+git clone git@github.com:wiley/repo.git // for the second
