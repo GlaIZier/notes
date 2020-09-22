@@ -66,7 +66,7 @@ ssh-copy-id 172.31.0.151
 ssh 172.31.0.33 "tar x" < ~/profiles/smile-profile-prod.tar 
 ssh 83.217.197.86  "tar x" < ~/d/Work\ Smile/Profiles\ And\ Scripts\ For\ Console/smile-profile-prod.tar // copy profile using scp and untar there
 ssh -i ~/.ssh/id_rsa_devteam -C -L 8888:localhost:8888 -L 8889:localhost:8889  -L555:localhost:5555 -L 5556:localhost:5556  -L 5000:localhost:5000 devteam@192.168.110.75 // forward ports to localhost from another host
-ssh -i ~/.ssh/id_rsa_devteam -C -D 1080 devteam@192.168.110.75 // connect via ssh and proxy connection on local 1080 port to a defined host using socks
+ssh -i ~/.ssh/id_rsa_devteam -C -D localhost:1080 devteam@192.168.110.75 // connect via ssh and proxy connection on local 1080 port to a defined host using socks
 
 sudo apt-get update        # Fetches the list of available updates (update repositories)
 sudo apt-get upgrade       # Strictly upgrades (patches) the current packages
