@@ -54,3 +54,5 @@ Host q0oz.github.com
 
 git clone git@q0oz.github.com:wiley/repo.git // for the first
 git clone git@github.com:wiley/repo.git // for the second
+
+git log --follow  -- <path to file/dir> // show the history of a path
