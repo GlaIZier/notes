@@ -233,3 +233,99 @@ zz // exit and save
 zq // exit wo saving
 :%d // delete all lines
 
+
+// Vitalik's commands
+# nvim
+## basic
+Copy in nvim
+<shift> <"> <*> <y>
+Paste in
+Crtl + q - select VISUAL BLOCK
+Crtl w+ q close current window
+Crtl w <- -> move to another window
+Crtl W w - move to another window
+Crtl W _ - minimize OTHER windows
+Crtl W = - makes size of all windows nearly the same
+Ctrl W o - close other windows
+c[i]w - Change [Inner] Word
+
+Command mode:
+q: - open history
+'scroll' in autocomplete popup: "Down": Ctrl + N / "Up": Ctrl + P
+
+### Shifting block
+[Shifting blocks visually | Vim Tips Wiki | Fandom](https://vim.fandom.com/wiki/Shifting_blocks_visually)
+In insert mode, Ctrl-T indents the current line, and Ctrl-D unindents.
+
+### Replace tabs with spaces
+:retab (useful after copy/paste from an external source)
+
+### Toggle Comment
+<leader> c ( [GitHub - tpope/vim-commentary: commentary.vim: comment stuff out](https://github.com/tpope/vim-commentary) )
+
+### Folding
+:zo - open a fold
+:zc - close a fold
+[Folding | Vim Tips Wiki | Fandom](https://vim.fandom.com/wiki/Folding)
+
+### Jumping:
+**Ctrl + O** Back
+**Ctrl + I** Forward
+[Jumping to previously visited locations | Vim Tips Wiki | Fandom](https://vim.fandom.com/wiki/Jumping_to_previously_visited_locations)
+You can also use **g;** and **g,** to move **backward** and **forward** in your edit locations.
+### Navigating splits
+[edit](https://vim.fandom.com/wiki/Buffers?veaction=edit§ion=6) | [edit source](https://vim.fandom.com/wiki/Buffers?section=6&veaction=editsource)
+Use **Ctrl-W** followed by one of the **hjkl** movement keys.
+### Motion
+[Nvim documentation: motion](https://neovim.io/doc/user/motion.html)
+
+## CoC
+## Formatting with black:
+:CocConfig
+```json
+{
+"python.formatting.provider": "black",
+"coc.preferences.formatOnSaveFiletypes": ["python"]
+}
+```
+
+### Mappings for CoCList
+#### Show all diagnostics.
+nnoremap <silent><nowait> <space>a :<C-u>CocList diagnostics<cr>
+#### Manage extensions.
+nnoremap <silent><nowait> <space>e :<C-u>CocList extensions<cr>
+#### Show commands.
+nnoremap <silent><nowait> <space>c :<C-u>CocList commands<cr>
+#### Find symbol of current document.
+nnoremap <silent><nowait> <space>o :<C-u>CocList outline<cr>
+#### Search workspace symbols.
+nnoremap <silent><nowait> <space>s :<C-u>CocList -I symbols<cr>
+#### Do default action for next item.
+nnoremap <silent><nowait> <space>j :<C-u>CocNext<CR>
+#### Do default action for previous item.
+nnoremap <silent><nowait> <space>k :<C-u>CocPrev<CR>
+#### Resume latest coc list.
+nnoremap <silent><nowait> <space>p :<C-u>CocListResume<CR>
+
+### Formatting selected code.
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+### GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+### Use `[g` and `]g` to navigate diagnostics
+Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+### Formatting selected code.
+xmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>f <Plug>(coc-format-selected)
+
+### Remap <C-f> and <C-b> for scroll float windows/popups.
+### Add `:Format` command to format current buffer.
+### Add `:OR` command for organize imports of the current buffer.
