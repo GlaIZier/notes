@@ -225,6 +225,7 @@ lsb_release -cs // show version name of ubuntu
 
 // hard drive (disk)
 df -h // show space for partitions
+df -h . // show space of the current path's partition
 df -i // show free file descriptors
 du -ach // show disk space used by files
 du -sh <folder> // check the size of a folder
