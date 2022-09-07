@@ -35,6 +35,10 @@ git rebase --continue
 git commit --amend --author="GlaIZier <kh.mv@bk.ru>"
 git rebase --continue
 git push -f
+// change an athor of several commit in one shot
+git rebase -r --root (or some commit before all of your bad commits>) \
+    --exec 'git commit --amend --no-edit --author="GlaIZier <kh.mv@bk.ru>"'
+git push -f
 
 
 // config for two users
