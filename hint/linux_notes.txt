@@ -429,3 +429,5 @@ unset {http,https}_proxy
 rsync -vzurtP -e 'ssh -C -i ~/.ssh/id_rsa_devteam' devteam@192.168.110.75:/home/devteam/Datasets/Wiley/minos.wiley.com.180412/DSS_wiley_ml . // download all from the folder using rsync
 
 wc -l <filename> // count lines in file
+
+PATH="$( cat file.txt )" // set PATH env variable to output from file.txt
