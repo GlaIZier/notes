@@ -431,3 +431,12 @@ rsync -vzurtP -e 'ssh -C -i ~/.ssh/id_rsa_devteam' devteam@192.168.110.75:/home/
 wc -l <filename> // count lines in file
 
 PATH="$( cat file.txt )" // set PATH env variable to output from file.txt
+
+//tmux
+tmux ls 
+tmux new -s session-name -n window-name
+tmux a -t session-name
+Ctrl + b % // Split pane with horizontal layout
+Ctrl + b " // Split pane with vertical layout
+Ctrl + <- -> ... " // Change panes
+Ctrl + b d // Detach from pane
