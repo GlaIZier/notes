@@ -1,0 +1,7 @@
+How does embedding work?
+Embedding layer works as a hashtable or a feed forward layer: in integer value, out embedded vector. Matrix [in: out]
+Representation of a word without context
+
+How does encoding toc2vec work?
+Representation of a word in a context.
+Convolution network with overlapping sliding windows can be used.
