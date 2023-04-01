@@ -316,6 +316,7 @@ unset TERM // unset terminal env variable
 ab -n 1000 -c 10 http://mail.ru // hiload testing using apache utils
 
 chown -R username:group directory //will change ownership (both user and group) of all files and directories inside of directory and directory itself.
+chgrp -R group file/dir // change group ownership
 
 rpm -i //(--install is equivalent) installs software that's been packaged into an RPM package file. It does this by: Performing dependency checks.Checking for conflicts.Performing any tasks required before the install.Deciding what to do with config files.Unpacking files from the package and putting them in the proper place.Performing any tasks required after the installKeeping track of what it did. 
 
