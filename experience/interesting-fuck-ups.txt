@@ -12,3 +12,5 @@ Smth weird started to happen with my Ubuntu 16.04. At first, it couldn't wake up
 7.
 Added spring-boot-actuator to the gradle project. After the startup of the project with @Import(HealthIndicatorAutoConfiguration.class) sun.reflect.annotation.TypeNotPresentExceptionProxy exception occured. 
 By debugging constructor of this exception I found found out that Java can't find HealthIndicatorAutoConfiguration class in the classpath. So gradle clean build was needed to make this work.
+8. 
+While training a transformer for citations in tables, cpu (cpu didn't occupy more than 200% even the number of workers more than 2. If 4 each occupied by 50% only) and gpu consequaintly wasn't fully utilized in PyTorch data loader (loaded files from disk) while running in docker in linux. Simplifying the model, and then data loading, figured out that it is not the code a user's code. Found on the Internet that it's a 'misbehavior' of affinity in numpy. https://stackoverflow.com/questions/15639779/why-does-multiprocessing-use-only-a-single-core-after-i-import-numpy 

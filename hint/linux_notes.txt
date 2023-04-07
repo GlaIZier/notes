@@ -427,6 +427,7 @@ export {http,https}_proxy="http://52.169.239.104:21789"
 To unistall
 unset {http,https}_proxy
 
+rsync -ar <from> <to> // rsync folder
 rsync -vzurtP -e 'ssh -C -i ~/.ssh/id_rsa_devteam' devteam@192.168.110.75:/home/devteam/Datasets/Wiley/minos.wiley.com.180412/DSS_wiley_ml . // download all from the folder using rsync
 
 wc -l <filename> // count lines in file
