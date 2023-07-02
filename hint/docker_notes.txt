@@ -1,5 +1,7 @@
 docker images -a // show all images
 docker rmi <name or id> // remove image
+docker rmi \$(docker images -a -q) // remove all images
+
 docker build -t smile/nginx . // Build docker image from this folder and tag it
 docker run -it <name>:<tag> // create container, run it, stdin keep open, allocate a pseudo terminal
 docker run -p 8432:5432 -d official/postgres:9.6 // bridge port from docker 5432 to host 8432 and run it in background. Then u can connect to container from host using: psql -h localhost  -p 8432 -U postgres
@@ -11,6 +13,10 @@ docker ps -a // show all containers
 docker exec -it <id> bash // enter the bash inside container
 docker stop <id> // stop container with this id
 docker stop <name>
+docker stop \$(docker ps -a -q) // docker stop all
+docker kill \$(docker ps -a -q) // docker kill all
+
+docker system df // check reclaimable space
 docker system prune // This will remove: - all stopped containers - all volumes not used by at least one container - all networks not used by at least one container - all dangling images
 
 Scripts
