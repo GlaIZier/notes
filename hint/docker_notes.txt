@@ -14,10 +14,11 @@ docker exec -it <id> bash // enter the bash inside container
 docker stop <id> // stop container with this id
 docker stop <name>
 docker stop \$(docker ps -a -q) // docker stop all
+docker kill <name>
 docker kill \$(docker ps -a -q) // docker kill all
 
 docker system df // check reclaimable space
-docker system prune // This will remove: - all stopped containers - all volumes not used by at least one container - all networks not used by at least one container - all dangling images
+docker system prune -a -f // This will remove: - all stopped containers - all volumes not used by at least one container - all networks not used by at least one container - all dangling images
 
 Scripts
 // clean docker
