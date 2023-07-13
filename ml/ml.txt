@@ -5,3 +5,18 @@ Representation of a word without context
 How does encoding toc2vec work?
 Representation of a word in a context.
 Convolution network with overlapping sliding windows can be used.
+
+ML project structure
+1. Root of project - python project. Folder can be python packages or folders with something else
+   - core/ py - common modules for dataset, training, inference
+   - dataset/ py - scripts (python and other), pipelines to gather raw data and create training/dev/val/test sets
+   - model/ py - scripts, pipelines for training, model architecture, other code used by models. Model is packed as a whl package. Better when a model is within self-contained package (with architecure inside binary file of the model + simple frontend code that loads the model and make predictions)
+   - serving/ py - scripts for rest api. Models are imported as whl package. Core can be imported directly or as whl package. Inference can be packed as whl or manually as a zip
+   - test/ py
+   - cli/
+   - docker/ - dockerfile for serving, training
+   requirements-training.txt
+   requirements-serving.txt
+   Makefile - to automate building, deployment of the project
+   registry.yaml? - with latest model versions used in the project
+2. Similar structure but every python module is a separate project (pip module): core pyproject, dataset + model pyproject + every model as a separate project, serving pyproject
