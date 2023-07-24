@@ -15,6 +15,7 @@ ML project structure
    - test/ py
    - cli/
    - docker/ - dockerfile for serving, training
+   - doc/ - documentation
    requirements-training.txt
    requirements-serving.txt
    Makefile - to automate building, deployment of the project
