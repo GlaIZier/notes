@@ -1,3 +1,47 @@
+// Vim shortcuts
+h - move cursor left
+j - move cursor down
+k - move cursor up
+l - move cursor right
+H - move to top of screen
+M - move to middle of screen
+L - move to bottom of screen
+zz - move current line to the middle of the screen (warning: ZZ is save and exit, so watch out for caps lock)
+zt - move current line to the top of the screen
+zb - move current line to the bottom of the screen
+Ctrl + e - move screen down one line (without moving cursor)
+Ctrl + y - move screen up one line (without moving cursor)
+Ctrl + b - move back one full screen
+Ctrl + f - move forward one full screen
+Ctrl + d - move forward 1/2 a screen
+Ctrl + u - move back 1/2 a screen
+0 - move at the beginning of the line
+$ - jump to the end of the line
+w - jump forwards to the start of a word
+W - jump forwards to the start of a word (words can contain punctuation)
+e - jump forwards to the end of a word
+E - jump forwards to the end of a word (words can contain punctuation)
+b - jump backwards to the start of a word
+B - jump backwards to the start of a word (words can contain punctuation)
+
+dw - delete (cut) the characters of the word from the cursor position to the start of the next word
+diw - delete (cut) word under the cursor
+daw - delete (cut) word under the cursor and the space after or before it
+
+v - start visual mode, mark lines, then do a command (like y-yank)
+V  - selects entire lines 
+shift > < mark words in visual mode
+d - cut marked text
+y - yank (copy) marked text
+
+i - insert before the cursor
+I - insert at the beginning of the line
+a - insert (append) after the cursor
+A - insert (append) at the end of the line
+o - append (open) a new line below the current line
+O - append (open) a new line above the current line
+ea - insert (append) at the end of the word
+
 // Nvim installation and setting up for python
 1. Install https://neovim.io/ from binary/brew/... and add to PATH if needed
 2. Install https://github.com/junegunn/vim-plug
