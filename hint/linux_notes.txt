@@ -432,7 +432,8 @@ rsync -vzurtP -e 'ssh -C -i ~/.ssh/id_rsa_devteam' devteam@192.168.110.75:/home/
 
 wc -l <filename> // count lines in file
 
-PATH="$( cat file.txt )" // set PATH env variable to output from file.txt
+TOKEN="$( cat ~/file.txt )" python sctipt.py // set TOKEN env variable to output from file.txt
+TOKEN=blablatoken envsubst < file-with-${TOKEN}var-inside.txt // substitute var in file
 
 //tmux
 tmux ls 

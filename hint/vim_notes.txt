@@ -17,6 +17,11 @@ Ctrl + d - move forward 1/2 a screen
 Ctrl + u - move back 1/2 a screen
 0 - move at the beginning of the line
 $ - jump to the end of the line
+^ - jump to the first non-blank character of the line
+g_ - jump to the last non-blank character of the line
+gg - go to the first line of the document
+G - go to the last line of the document
+5gg or 5G - go to line 5
 w - jump forwards to the start of a word
 W - jump forwards to the start of a word (words can contain punctuation)
 e - jump forwards to the end of a word
@@ -27,6 +32,10 @@ B - jump backwards to the start of a word (words can contain punctuation)
 dw - delete (cut) the characters of the word from the cursor position to the start of the next word
 diw - delete (cut) word under the cursor
 daw - delete (cut) word under the cursor and the space after or before it
+dd - delete (cut) a line
+2dd - delete (cut) 2 lines
+d$ or D - delete (cut) to the end of the line
+x - delete (cut) character
 
 v - start visual mode, mark lines, then do a command (like y-yank)
 V  - selects entire lines 
