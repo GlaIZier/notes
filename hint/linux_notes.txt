@@ -192,7 +192,7 @@ arp -na // show arp table
 
 
 htop //show load of mem, cpu and other
-free -m // show free memory
+free -mh // show free memory in human readbable format
 uptime
 cat /proc/meminfo
 cat /proc/cpuinfo
@@ -443,3 +443,8 @@ Ctrl + b % // Split pane with horizontal layout
 Ctrl + b " // Split pane with vertical layout
 Ctrl + <- -> ... " // Change panes
 Ctrl + b d // Detach from pane
+
+// gcp vm
+gcloud compute ssh "<vm-name>"
+gcloud compute ssh --zone "us-central1-a" "<vm-name>" --tunnel-through-iap --project "<project>"
+gcloud compute scp localfile  <vm-name>:~
