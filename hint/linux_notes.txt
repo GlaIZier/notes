@@ -100,7 +100,8 @@ ln -sfn payments-web-0.7.4.jar payments.jar // create link
 
 tar -tf filename.tar.gz // watch files inside archive
 tar --verbose  -tf /home/itbackup/bkp_2015-09-14.tar.gz | grep '^d.+' // watch all catalogs
-tar -xzf /vagrant/bkp_2015-09-02.tar.gz opt usr  // untar
+tar -xzf /vagrant/bkp_2015-09-02.tar.gz opt usr  // untar opt usr only in tar
+tar -xzf file.tar.gz // untar file
 tar czf name_of_archive_file.tar.gz name_of_directory_to_tar // To tar and gzip a folder, the syntax is:
 
 
@@ -188,8 +189,6 @@ tcpdump -enni eth0 proto 6 and port 80 and host ... // tcp and port 80 -http
 ngrep -W byline -d eth1 "Host" proto 6 and port 80 // grep text protocol
 
 arp -na // show arp table 
-
-
 
 htop //show load of mem, cpu and other
 free -mh // show free memory in human readbable format
