@@ -447,3 +447,7 @@ Ctrl + b d // Detach from pane
 gcloud compute ssh "<vm-name>"
 gcloud compute ssh --zone "us-central1-a" "<vm-name>" --tunnel-through-iap --project "<project>"
 gcloud compute scp localfile  <vm-name>:~
+
+// temperature
+sudo powermetrics -s thermal // apple silicon tempetature
+sudo powermetrics --samplers smc | grep -i "CPU die temperature" // intel/amd temperature 
