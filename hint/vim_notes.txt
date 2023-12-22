@@ -42,6 +42,7 @@ V  - selects entire lines
 shift > < mark words in visual mode
 d - cut marked text
 y - yank (copy) marked text
+aw - mark a word
 
 i - insert before the cursor
 I - insert at the beginning of the line
