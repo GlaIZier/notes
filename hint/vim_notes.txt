@@ -32,10 +32,13 @@ B - jump backwards to the start of a word (words can contain punctuation)
 dw - delete (cut) the characters of the word from the cursor position to the start of the next word
 diw - delete (cut) word under the cursor
 daw - delete (cut) word under the cursor and the space after or before it
+dtspace - delete till space
 dd - delete (cut) a line
 2dd - delete (cut) 2 lines
 d$ or D - delete (cut) to the end of the line
 x - delete (cut) character
+X - cut character before cursor
+~ - switch case
 
 v - start visual mode, mark lines, then do a command (like y-yank)
 V  - selects entire lines 
