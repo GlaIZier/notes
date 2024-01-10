@@ -57,6 +57,7 @@ tee // duplicate data from stdin to file and stdout
 
 grep "cs1 tel" catalina.out.2015-05-14 | awk '{print $49" "$17" "$18" "$7" "$22}' | sort -k5 | uniq | wc -l // Get chronopay telephone payments
 grep -R --color "href=\"#ref" ./datasource/rex_api_small | awk -F ':' '{print $1}' |  uniq | wc -l // change delimeter for awk
+echo "BUILD_ARG_APP_VERSION=$(grep 'version' pyproject.toml | awk '{print substr($3, 2, length($3) - 2)}')" >> file.txt
 
 tail -f catalina.out // show in runtime document tail of doc
 tail -1000 catalina.out // show 1000 last lines of the file
