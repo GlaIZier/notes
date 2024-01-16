@@ -111,8 +111,8 @@ tar czf name_of_archive_file.tar.gz name_of_directory_to_tar // To tar and gzip 
 // manage users in linux
 adduser mkhokhlushin
 /usr/sbin/visudo // add here su previligies
-userdel mkhokhlushin 
-rm -rf /home/mkhokhlushin // remove dir with files
+userdel user 
+rm -rf /home/user /tmp/anotherdir // remove several dirs with files
 rm -rf images/* // remove all inside images folder
 /var/log/secure // security logs
 
@@ -443,6 +443,7 @@ Ctrl + b % // Split pane with horizontal layout
 Ctrl + b " // Split pane with vertical layout
 Ctrl + <- -> ... " // Change panes
 Ctrl + b d // Detach from pane
+Ctrl + b [ - arrow up, down to scroll - q // scroll the pane
 
 // gcp vm
 gcloud compute ssh "<vm-name>"
