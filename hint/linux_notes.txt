@@ -40,6 +40,7 @@ netstat -na // show opened connections
 netstat -i //interfaces list
 netstat -r // route table
 netstat -latn // listen queue for open sockets
+netstat -anvp tcp | awk 'NR<3 || /LISTEN/' // show listen tcp ports macos
 nmap -p 80 redmine.infoline.ru // show report for redmine.infoline.ru, port 80, open ports
 nmap -A -T4 83.217.194.3  // show open ports report from outside
 lsof -i :25 // list open files by port 25
@@ -114,6 +115,7 @@ adduser mkhokhlushin
 userdel user 
 rm -rf /home/user /tmp/anotherdir // remove several dirs with files
 rm -rf images/* // remove all inside images folder
+rm -rf -- ..?* .[!.]* * // remove all files including hidden * matches all non-dot-files, .[!.]* matches all dot files except . and files whose name begins with .., and ..?* matches all dot-dot files except ... Together they match all files other than . and ... If any of these three patterns matches nothing, it expands to itself; rm -f doesn't care about non-existent arguments, so this doesn't matter.
 /var/log/secure // security logs
 
 ll -h /home/itbackup/ // watch files in dir with privileges and sizes
