@@ -446,7 +446,9 @@ Ctrl + b " // Split pane with vertical layout
 Ctrl + <- -> ... " // Change panes
 Ctrl + b d // Detach from pane
 Ctrl + b [ - arrow up, down to scroll - q // scroll the pane
-
+Ctrl + b { - change panes' places
+Ctrl + b x - kill pane
+ 
 // gcp vm
 gcloud compute ssh "<vm-name>"
 gcloud compute ssh --zone "us-central1-a" "<vm-name>" --tunnel-through-iap --project "<project>"
