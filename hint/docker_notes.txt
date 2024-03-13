@@ -1,7 +1,8 @@
 docker images -a // show all images
 docker rmi <name or id> // remove image
 docker rmi \$(docker images -a -q) // remove all images
-
+docker image prune -f // will delete all dangling data (containers, networks, and images) -a Remove all unused images, not just dangling ones
+ 
 docker build -t smile/nginx . // Build docker image from this folder and tag it
 docker run -it <name>:<tag> // create container, run it, stdin keep open, allocate a pseudo terminal
 docker run -p 8432:5432 -d official/postgres:9.6 // bridge port from docker 5432 to host 8432 and run it in background. Then u can connect to container from host using: psql -h localhost  -p 8432 -U postgres
