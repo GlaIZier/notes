@@ -314,6 +314,7 @@ sudo usermod -G name-of-group -a 'name-of-user' // add user to the group
 
 export TERM=linux // set terminal env variable to linux
 unset TERM // unset terminal env variable
+read -s -p "Secret:" shell_secret and then export shell_secret // set env secret so that it's not saved in history
 
 ab -n 1000 -c 10 http://mail.ru // hiload testing using apache utils
 
