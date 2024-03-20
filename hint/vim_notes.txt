@@ -48,6 +48,8 @@ d - cut marked text
 y - yank (copy) marked text
 aw - mark a word
 U - change to uppercase
+Ctrl + v - visual block
+I - insert in visual block, then esc to trigger changes
 
 i - insert before the cursor
 I - insert at the beginning of the line
