@@ -5,4 +5,7 @@ gcloud compute ssh "station"
 gcloud compute ssh "station" --tunnel-through-iap // ssh if there is no public ip address
 gcloud compute ssh station --project=project-id --zone=us-central1-a  --tunnel-through-iap
 gcloud compute copy-files requirements.txt station:/~
-gcloud compute scp requirements.txt  station:~
+gcloud compute scp requirements.txt  <vm-name>:~
+gcloud compute scp <vm-name>:~/file.txt . --tunnel-through-iap
+
+gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <gcp project>
