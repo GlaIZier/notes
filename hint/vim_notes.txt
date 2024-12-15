@@ -33,11 +33,14 @@ dw - delete (cut) the characters of the word from the cursor position to the sta
 diw - delete (cut) word under the cursor
 daw - delete (cut) word under the cursor and the space after or before it
 daW - delete (cut) WORD (composite) under the cursor and the space after or before it
+da" - delete inside "
+df" It will also delete the text inside quotes and quotes too!
 dtspace - delete till space
 dd - delete (cut) a line
 2dd - delete (cut) 2 lines
 d$ or D - delete (cut) to the end of the line
 d^ to delete until the first character of the line
+d0 delete till the beginning of the line
 x - delete (cut) character
 X - cut character before cursor
 ~ - switch case
