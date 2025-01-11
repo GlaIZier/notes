@@ -41,9 +41,13 @@ dd - delete (cut) a line
 d$ or D - delete (cut) to the end of the line
 d^ to delete until the first character of the line
 d0 delete till the beginning of the line
+db - delete before
+"till" t, but moving backwards it requires an uppercase T. The same works for "find" f moving backwards it's F. e.g. dT" or finding the "h": dFh
 x - delete (cut) character
 X - cut character before cursor
 ~ - switch case
+
+
 
 v - start visual mode, mark lines, then do a command (like y-yank)
 V  - selects entire lines 
