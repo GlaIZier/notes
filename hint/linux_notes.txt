@@ -240,6 +240,7 @@ vmstat // show cpu, io system, hard disks, swap ...
 perl -ne "print scalar localtime(), '', $_;" | vmstat 1 //print 1 time a sec with localtime
 iostat // io statistics
 iotop // show load of io
+diskutil unmount <drive_name_case_sensetive>
 
 env // show environment variable. They are needed for applications usage like arguments. These are smth like very global arguments. Env var PATH is a global variable for all user installed programs to run from any place in console. So u don't need to type in the full path to the application.
 
@@ -267,7 +268,8 @@ dpkg -L docker-engine // list all files in docker-engine package
 dpkg -l | grep linux | grep ii // get all packages linux installed
 dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] 
 dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] | xargs sudo apt-get -y purge // Remove old kernel packages
-dpkg -l | grep linux | grep ii | grep 3.16 | awk '{print $2}' | xargs sudo apt-get -y purge // remove all kernel 3.16 packages 
+dpkg -l | grep linux | grep ii | grep 3.16 | awk '{print $2}' | xargs sudo apt-get -y purge // remove all kernel 3.16 packages
+echo filename* | xargs -I {} find . -name {}  // find filename* in current dir
 dpkg -i // install package
 dpkg -r // remove package
 
