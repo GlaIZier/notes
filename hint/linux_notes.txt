@@ -272,6 +272,8 @@ dpkg -l | grep linux | grep ii | grep 3.16 | awk '{print $2}' | xargs sudo apt-g
 echo filename* | xargs -I {} find . -name {}  // find filename* in current dir
 dpkg -i // install package
 dpkg -r // remove package
+python script.py | awk '{print "--params", "\x27" $0 "\x27"}' | xargs python -m pack.client log --experiment test // -> python -m pack.client log --experiment test --param '1' --param '2'
+
 
 
 
@@ -460,3 +462,6 @@ gcloud compute scp localfile  <vm-name>:~
 // temperature
 sudo powermetrics -s thermal // apple silicon tempetature
 sudo powermetrics --samplers smc | grep -i "CPU die temperature" // intel/amd temperature 
+
+# mac 
+caffeinate -i sleep 100000 # don't allow mac to sleep while the command is running
