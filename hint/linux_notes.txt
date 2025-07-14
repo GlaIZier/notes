@@ -463,5 +463,11 @@ gcloud compute scp localfile  <vm-name>:~
 sudo powermetrics -s thermal // apple silicon tempetature
 sudo powermetrics --samplers smc | grep -i "CPU die temperature" // intel/amd temperature 
 
-# mac 
-caffeinate -i sleep 100000 # don't allow mac to sleep while the command is running
+# MACOS
+caffeinate -i top # don't allow mac to sleep while the command is running
+caffeinate -di top # don't allow mac to sleep and turn display off while the command is running
+pmset -g assertions # check current assertations if something prevents mac from sleeping
+
+
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -u /Applications/Cursor.app # unregister the app from the default apps to open files with
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f /Applications/Cursor.app # reregister the app to the default apps to open files with
