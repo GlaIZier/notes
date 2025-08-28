@@ -42,6 +42,9 @@ d$ or D - delete (cut) to the end of the line
 d^ to delete until the first character of the line
 d0 delete till the beginning of the line
 db - delete before
+:.,$d - From the current line to the end of the file
+:.,1d - From the current line to the beginning of the file
+:10,1d - From the 10th line to the beginning of the file
 "till" t, but moving backwards it requires an uppercase T. The same works for "find" f moving backwards it's F. e.g. dT" or finding the "h": dFh
 x - delete (cut) character
 X - cut character before cursor
