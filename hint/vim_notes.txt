@@ -61,6 +61,7 @@ aw - mark a word
 U - change to uppercase
 Ctrl + v - visual block
 I - insert in visual block, then esc to trigger changes
+< > add shift to text
 
 i - insert before the cursor
 I - insert at the beginning of the line
