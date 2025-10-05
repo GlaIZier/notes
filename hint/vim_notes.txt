@@ -25,11 +25,13 @@ G - go to the last line of the document
 w - jump forwards to the start of a word
 W - jump forwards to the start of a word (words can contain punctuation)
 e - jump forwards to the end of a word
+2e - like e two times
 E - jump forwards to the end of a word (words can contain punctuation)
 b - jump backwards to the start of a word
 B - jump backwards to the start of a word (words can contain punctuation)
 
 dw - delete (cut) the characters of the word from the cursor position to the start of the next word
+d2w - delete 2 words
 diw - delete (cut) word under the cursor
 daw - delete (cut) word under the cursor and the space after or before it
 daW - delete (cut) WORD (composite) under the cursor and the space after or before it
@@ -48,7 +50,11 @@ db - delete before
 "till" t, but moving backwards it requires an uppercase T. The same works for "find" f moving backwards it's F. e.g. dT" or finding the "h": dFh
 x - delete (cut) character
 X - cut character before cursor
+r - replace char
+R - replace many chars
 ~ - switch case
+ce - delete till end of word and insert mode
+cc - delete line and insert mode
 
 
 
@@ -70,7 +76,35 @@ A - insert (append) at the end of the line
 o - append (open) a new line below the current line
 O - append (open) a new line above the current line
 ea - insert (append) at the end of the word
+u - undo
+ctrl - r - redo
 
+/ - search N prev, n next
+? - search backwards
+% find the closing parenthesis
+ :s/thee/the/g  Adding the  g  flag means to substitute globally in the line
+  type   :#,#s/old/new/g    where #,# are the line numbers of the range
+                               of lines where the substitution is to be done.
+     Type   :%s/old/new/g      to change every occurrence in the whole file.
+     Type   :%s/old/new/gc     to find every occurrence in the whole file,
+                  with a prompt whether to substitute or not.
+
+:set ic - ignore case while searching
+If you want to ignore case for just one search command, use  \c
+       in the phrase:  /ignore\c
+:set hls  is - highlight search 
+:set noic - disable ignore case
+
+:q! / ZQ - quit without saving
+:wq / ZZ - save and exit Vim
+:! ls - execute external command
+:w file.txt - save current vim as file.txt
+:r file.txt - insert content of file.txt here
+:r! ls - insert the result of ls here
+:help w - help about w
+
+
+ 
 // Nvim installation and setting up for python
 1. Install https://neovim.io/ from binary/brew/... and add to PATH if needed
 2. Install https://github.com/junegunn/vim-plug
