@@ -9,3 +9,9 @@ gcloud compute scp requirements.txt  <vm-name>:~
 gcloud compute scp <vm-name>:~/file.txt . --tunnel-through-iap
 
 gcloud container clusters get-credentials <cluster-name> --zone <zone> --project <gcp project>
+
+# GCP Storage
+gcloud storage rsync -r -x '^.*\..*(?<!\.entities\.json)$' 'gs://bucket/folder' Documents/wiley/data/rex-entities # rsync only .entities.json files preserving file structure. attention no trailing slash in 'gs:'
+gcloud storage cp -r -P 'gs://atypon-mt-manuscript-transformation-rex/transformation-data/wiley/**/*entities.json' Documents/wiley/data/rex-entities # cp with wildcard
+gcloud storage ls 'gs://atypon-mt-manuscript-transformation-rex/transformation-data/sage' | wc -l # count number of files
+gcloud storage du -s -r gs://atypon-mt-manuscript-transformation-rex/transformation-data/wiley # space taken
